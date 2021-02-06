@@ -1,30 +1,63 @@
 
 .root {
     -selection-color: #4b7ccf;
-    -menu-color: #000000;
+    -primary-color: #000000;
+    -secondary-color: #333333;
+    -sidebar-color: #444444;
     -text-color: #ffffff;
     -focus-color: -selection-color;
+    -fx-background-color: -secondary-color;
+    -fx-font-family: "Verdana";
 }
 
 .context-menu {
     -fx-padding: 0px;
 }
 
+#sidebar {
+    -fx-background-color: -sidebar-color;
+}
+
+#sidebar > .button {
+    -fx-background-color: -sidebar-color;
+    -fx-border-width: 1 1 1 1;
+    -fx-alignment: center-left;
+    -fx-width: 50px;
+    -fx-height: 30px;
+    -fx-padding: 10px 30px 10px 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -text-color;
+}
+
+.vbox,
 .context-menu,
 .menu-bar,
 .menu,
 .menu-item {
-    -fx-background-color: -menu-color;
+    -fx-background-color: -primary-color;
 }
 
+.scroll-pane {
+    -fx-background: -secondary-color;
+}
+
+.menu-item {
+    -fx-padding: 3px 25px 3px 5px;
+}
+
+.button:hover,
 .menu:showing,
 .menu-item:focused {
-    -fx-background-color: -focus-color;
+    -fx-background-color: -focus-color !important;
 }
 
 .menu .label,
 .menu-item .label {
     -fx-text-fill: -text-color;
+}
+
+#mainscroll {
+    -fx-background-color: -secondary-color;
 }
 
 
