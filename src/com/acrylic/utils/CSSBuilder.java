@@ -1,7 +1,7 @@
 package com.acrylic.utils;
 
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
+import javafx.scene.text.FontWeight;
 import org.jetbrains.annotations.NotNull;
 
 public final class CSSBuilder {
@@ -33,11 +33,11 @@ public final class CSSBuilder {
     }
 
     public CSSBuilder addBackground(@NotNull Color color) {
-        return addBackground(Utils.toHexColorWithID(color));
+        return addBackground(FXUtils.toHexColorWithID(color));
     }
 
     public CSSBuilder addBackground(int r, int g, int b, int a) {
-        return addBackground(Utils.toHexColorWithID(r, g, b, a));
+        return addBackground(FXUtils.toHexColorWithID(r, g, b, a));
     }
 
     public CSSBuilder addBackground(@NotNull String color) {
@@ -45,11 +45,11 @@ public final class CSSBuilder {
     }
 
     public CSSBuilder addBackgroundColor(@NotNull Color color) {
-        return addBackgroundColor(Utils.toHexColorWithID(color));
+        return addBackgroundColor(FXUtils.toHexColorWithID(color));
     }
 
     public CSSBuilder addBackgroundColor(int r, int g, int b, int a) {
-        return addBackgroundColor(Utils.toHexColorWithID(r, g, b, a));
+        return addBackgroundColor(FXUtils.toHexColorWithID(r, g, b, a));
     }
 
     public CSSBuilder addBackgroundColor(@NotNull String color) {
@@ -57,19 +57,27 @@ public final class CSSBuilder {
     }
 
     public CSSBuilder addTextFill(@NotNull Color color) {
-        return addTextFill(Utils.toHexColorWithID(color));
+        return addTextFill(FXUtils.toHexColorWithID(color));
     }
 
     public CSSBuilder addTextFill(int r, int g, int b, int a) {
-        return addTextFill(Utils.toHexColorWithID(r, g, b, a));
+        return addTextFill(FXUtils.toHexColorWithID(r, g, b, a));
     }
 
     public CSSBuilder addTextFill(@NotNull String color) {
         return add("-fx-text-fill", color);
     }
 
+    public CSSBuilder addFontWeight(@NotNull FontWeight fontWeight) {
+        return addFontWeight(fontWeight.name());
+    }
+
+    public CSSBuilder addFontWeight(@NotNull String fontWeight) {
+        return add("-fx-font-weight", fontWeight);
+    }
+
     public CSSBuilder add(@NotNull String key, @NotNull Object value) {
-        return addString(key).addString(":").addString(value.toString());
+        return addString(key).addString(":").addString(value.toString()).addString("; ");
     }
 
     public CSSBuilder addString(@NotNull String str) {
@@ -78,6 +86,7 @@ public final class CSSBuilder {
     }
 
     public String build() {
+        System.out.println(stringBuilder.toString());
         return stringBuilder.toString();
     }
 }

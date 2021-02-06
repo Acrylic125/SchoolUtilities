@@ -1,9 +1,11 @@
 package com.acrylic.main;
 
 import com.acrylic.utils.CSSBuilder;
+import com.acrylic.utils.FXUtils;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.paint.Color;
+import javafx.scene.text.FontWeight;
 
 public class MainMenuOptionButton extends Button {
 
@@ -23,7 +25,14 @@ public class MainMenuOptionButton extends Button {
     }
 
     private void init() {
-        setStyle(CSSBuilder.builder().addBackgroundColor(Color.BLACK).build());
+        setPrefSize(100, 200);
+        FXUtils.setMinMaxSizeByFactorFromPref(this, 0.5f, 2f);
+        setStyle(CSSBuilder.builder()
+                .addBackgroundColor(Color.LAVENDER)
+                .addTextFill(Color.AZURE)
+                .addFontWeight(FontWeight.BOLD)
+                .build()
+        );
     }
 
 }
