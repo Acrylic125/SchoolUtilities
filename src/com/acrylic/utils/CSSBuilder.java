@@ -2,6 +2,7 @@ package com.acrylic.utils;
 
 import javafx.scene.paint.Color;
 import javafx.scene.text.FontWeight;
+import javafx.scene.text.TextAlignment;
 import org.jetbrains.annotations.NotNull;
 
 public final class CSSBuilder {
@@ -10,10 +11,54 @@ public final class CSSBuilder {
         return new CSSBuilder();
     }
 
+    public enum Unit {
+        PX("px"), EM("em");
+
+        private final String unit;
+
+        Unit(@NotNull String unit) {
+            this.unit = unit;
+        }
+
+        public String getUnit() {
+            return unit;
+        }
+    }
+
+    private String unit = "px";
     private final StringBuilder stringBuilder;
 
     private CSSBuilder() {
         stringBuilder = new StringBuilder();
+    }
+
+    public CSSBuilder useUnit(@NotNull Unit unit) {
+        return useUnit(unit.getUnit());
+    }
+
+    public CSSBuilder useUnit(@NotNull String unit) {
+        this.unit = unit;
+        return this;
+    }
+
+    public CSSBuilder addTextAlignment(@NotNull TextAlignment textAlignment) {
+        return add("-fx-text-alignment", textAlignment.name());
+    }
+
+    public CSSBuilder addAlignment(@NotNull Alignment alignment) {
+        return add("-fx-alignment", alignment.getName());
+    }
+
+    public CSSBuilder addOpacity(float opacity) {
+        return add("-fx-opacity", opacity);
+    }
+
+    public CSSBuilder addBackgroundRadius(int radius) {
+        return add("-fx-background-radius", radius + unit);
+    }
+
+    public CSSBuilder addBackgroundRadius(int rightTop, int leftTop, int bottomLeft, int bottomRight) {
+        return add("-fx-background-radius", format4intsWithUnit(rightTop, leftTop, bottomLeft, bottomRight));
     }
 
     public CSSBuilder addPadding(int padding) {
@@ -21,7 +66,7 @@ public final class CSSBuilder {
     }
 
     public CSSBuilder addPadding(int top, int right, int bottom, int left) {
-        return add("-fx-padding", top + "px " + right + "px " + bottom + "px " + left + "px");
+        return add("-fx-padding", format4intsWithUnit(top, right, bottom, left));
     }
 
     public CSSBuilder addMargin(int margin) {
@@ -29,14 +74,14 @@ public final class CSSBuilder {
     }
 
     public CSSBuilder addMargin(int top, int right, int bottom, int left) {
-        return add("-fx-margin", top + "px " + right + "px " + bottom + "px " + left + "px");
+        return add("-fx-margin", format4intsWithUnit(top, right, bottom, left));
     }
 
     public CSSBuilder addBackground(@NotNull Color color) {
         return addBackground(FXUtils.toHexColorWithID(color));
     }
 
-    public CSSBuilder addBackground(int r, int g, int b, int a) {
+    public CSSBuilder addBackground(int r, int g, int b, float a) {
         return addBackground(FXUtils.toHexColorWithID(r, g, b, a));
     }
 
@@ -48,7 +93,7 @@ public final class CSSBuilder {
         return addBackgroundColor(FXUtils.toHexColorWithID(color));
     }
 
-    public CSSBuilder addBackgroundColor(int r, int g, int b, int a) {
+    public CSSBuilder addBackgroundColor(int r, int g, int b, float a) {
         return addBackgroundColor(FXUtils.toHexColorWithID(r, g, b, a));
     }
 
@@ -60,7 +105,7 @@ public final class CSSBuilder {
         return addTextFill(FXUtils.toHexColorWithID(color));
     }
 
-    public CSSBuilder addTextFill(int r, int g, int b, int a) {
+    public CSSBuilder addTextFill(int r, int g, int b, float a) {
         return addTextFill(FXUtils.toHexColorWithID(r, g, b, a));
     }
 
@@ -89,4 +134,9 @@ public final class CSSBuilder {
         System.out.println(stringBuilder.toString());
         return stringBuilder.toString();
     }
+
+    private String format4intsWithUnit(int a, int b, int c, int d) {
+        return a + unit + " " + b + unit + " " + c + unit + " " + d + unit;
+    }
+
 }

@@ -1,5 +1,6 @@
 package com.acrylic.main;
 
+import com.acrylic.utils.Alignment;
 import com.acrylic.utils.CSSBuilder;
 import com.acrylic.utils.FXUtils;
 import javafx.scene.Node;
@@ -28,9 +29,12 @@ public class MainMenuOptionButton extends Button {
         setPrefSize(100, 200);
         FXUtils.setMinMaxSizeByFactorFromPref(this, 0.5f, 2f);
         setStyle(CSSBuilder.builder()
-                .addBackgroundColor(Color.LAVENDER)
-                .addTextFill(Color.AZURE)
+                .addBackgroundColor(0, 0, 0, 0.15f)
+                .addTextFill(Color.WHITE)
                 .addFontWeight(FontWeight.BOLD)
+                .addBackgroundRadius(25, 4, 25, 4)
+                .addAlignment(Alignment.TOP_LEFT)
+                .addPadding(10)
                 .build()
         );
     }

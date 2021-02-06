@@ -1,6 +1,5 @@
 package com.acrylic.utils;
 
-import javafx.scene.control.Control;
 import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
 import org.jetbrains.annotations.NotNull;
@@ -11,7 +10,7 @@ public final class FXUtils {
         return "#" + toHexColor(color);
     }
 
-    public static String toHexColorWithID(int r, int g, int b, int a) {
+    public static String toHexColorWithID(int r, int g, int b, float a) {
         return "#" + toHexColor(r, g, b, a);
     }
 
@@ -25,6 +24,15 @@ public final class FXUtils {
                 (int) Math.round(g * 255),
                 (int) Math.round(b * 255),
                 (int) Math.round(a * 255));
+    }
+
+    public static void cloneSizeFrom(@NotNull Region region, @NotNull Region cloneFrom) {
+        cloneSizeFrom(region, cloneFrom, 1f, 1f);
+    }
+
+    public static void cloneSizeFrom(@NotNull Region region, @NotNull Region cloneFrom, float minFactor, float maxFactor) {
+        region.setPrefSize(region.getPrefWidth(), region.getPrefHeight());
+        setMinMaxSizeByFactorFromPref(region, minFactor, maxFactor);
     }
 
     public static void setMinMaxSizeByFactorFromPref(@NotNull Region region, float minFactor, float maxFactor) {

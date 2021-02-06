@@ -1,5 +1,6 @@
 package com.acrylic.main;
 
+import com.acrylic.utils.FXUtils;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
@@ -14,10 +15,8 @@ public class MainController {
     @FXML
     private void initialize() {
         VBox vb = new VBox();
-        vb.setMinSize(main.getMinWidth(), main.getMinHeight());
-        vb.setMaxSize(main.getMaxWidth(), main.getMaxHeight());
-        vb.setPrefSize(main.getPrefWidth(), main.getPrefHeight());
-        for (int i = 0; i < 100; i++) {
+        FXUtils.cloneSizeFrom(vb, main);
+        for (int i = 0; i < 1; i++) {
             vb.getChildren().add(new MainMenuOptionButton("Hello"));
         }
         main.setContent(vb);
