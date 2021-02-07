@@ -25,8 +25,8 @@ public final class CSSBuilder {
         }
     }
 
-    private String unit = "px";
     private final StringBuilder stringBuilder;
+    private String unit = "px";
 
     private CSSBuilder() {
         stringBuilder = new StringBuilder();
@@ -114,11 +114,23 @@ public final class CSSBuilder {
     }
 
     public CSSBuilder addFontWeight(@NotNull FontWeight fontWeight) {
-        return addFontWeight(fontWeight.name());
+        return addFontWeight(fontWeight.getWeight());
+    }
+
+    public CSSBuilder addFontWeight(int weight) {
+        return add("-fx-font-weight", weight);
     }
 
     public CSSBuilder addFontWeight(@NotNull String fontWeight) {
         return add("-fx-font-weight", fontWeight);
+    }
+
+    public CSSBuilder addHeight(int height) {
+        return add("-fx-height", height + unit);
+    }
+
+    public CSSBuilder addWidth(int width) {
+        return add("-fx-width", width + unit);
     }
 
     public CSSBuilder add(@NotNull String key, @NotNull Object value) {
@@ -131,7 +143,6 @@ public final class CSSBuilder {
     }
 
     public String build() {
-        System.out.println(stringBuilder.toString());
         return stringBuilder.toString();
     }
 

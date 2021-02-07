@@ -14,7 +14,7 @@ public class Main extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("main/maincontroller.fxml"));
         primaryStage.setTitle("School Utilities");
         var scene = new Scene(root, 700, 430);
-        scene.getStylesheets().add(getClass().getResource("resources/DarkTheme.css").toString());
+        scene.getStylesheets().add(getClass().getResource("resources/Theme.css").toString());
         primaryStage.setScene(scene);
         primaryStage.show();
     }

@@ -5,6 +5,7 @@ import com.acrylic.utils.CSSBuilder;
 import com.acrylic.utils.FXUtils;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.layout.Border;
 import javafx.scene.paint.Color;
 import javafx.scene.text.FontWeight;
 
@@ -26,13 +27,13 @@ public class MainMenuOptionButton extends Button {
     }
 
     private void init() {
-        setPrefSize(100, 200);
-        FXUtils.setMinMaxSizeByFactorFromPref(this, 0.5f, 2f);
+        setPrefSize(200, 200);
+        FXUtils.setMinMaxSizeByFactorFromPref(this, 1f, 2f);
+        setTextFill(Color.WHITE);
         setStyle(CSSBuilder.builder()
                 .addBackgroundColor(0, 0, 0, 0.15f)
-                .addTextFill(Color.WHITE)
                 .addFontWeight(FontWeight.BOLD)
-                .addBackgroundRadius(25, 4, 25, 4)
+                .addBackgroundRadius(25)
                 .addAlignment(Alignment.TOP_LEFT)
                 .addPadding(10)
                 .build()

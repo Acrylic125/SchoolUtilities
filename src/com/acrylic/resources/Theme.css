@@ -39,6 +39,7 @@
 
 .scroll-pane {
     -fx-background: -secondary-color;
+    -fx-background-color: transparent;
 }
 
 .menu-item {
@@ -59,5 +60,22 @@
 #mainscroll {
     -fx-background-color: -secondary-color;
 }
+
+.text-area .content,
+.text-area {
+    -fx-background-insets: 0;
+    -fx-background-color: rgb(218, 218, 218);
+    -fx-font-size: 10px;
+    -fx-text-fill: rgb(95, 95, 95);
+    -fx-prompt-text-fill: rgb(95, 95, 95);
+}
+
+.text-area .scroll-bar:horizontal,
+.text-area .scroll-bar:vertical {
+    -fx-opacity: 0;
+}
+
+
+
 
 

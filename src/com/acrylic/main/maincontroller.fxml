@@ -2,19 +2,14 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity"
-            maxWidth="-Infinity"
-            minHeight="-Infinity"
-            minWidth="-Infinity"
-            prefHeight="400.0"
-            prefWidth="600.0"
-            stylesheets="@../resources/DarkTheme.css"
-            fx:controller="com.acrylic.main.MainController"
-            xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@../resources/Theme.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.acrylic.main.MainController">
     <children>
         <AnchorPane fx:id="sidebar" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
@@ -24,9 +19,22 @@
         </AnchorPane>
         <VBox prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
-                <AnchorPane fx:id="mainanchorpane" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+                <AnchorPane fx:id="mainAnchorPane" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
                     <children>
-                        <ScrollPane fx:id="main" hbarPolicy="NEVER" prefHeight="397.0" prefWidth="407.0" vbarPolicy="NEVER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                  <ImageView fx:id="searchImage" fitHeight="15.0" fitWidth="15.0" layoutX="215.0" layoutY="18.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="367.0" AnchorPane.leftAnchor="220.0" AnchorPane.topAnchor="18.0">
+                     <image>
+                        <Image url="file:/C:/Users/bened/Desktop/Coding/Java/Code/SchoolUtilities/src/com/acrylic/resources/searchicon.png" />
+                     </image></ImageView>
+                        <ScrollPane fx:id="main" hbarPolicy="NEVER" prefHeight="397.0" prefWidth="407.0" vbarPolicy="NEVER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0" />
+                  <TextArea fx:id="search" layoutX="8.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" opacity="0.8" prefColumnCount="1" prefHeight="30.0" prefRowCount="1" prefWidth="200.0" promptText="Search" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="10.0">
+                     <font>
+                        <Font size="7.0" />
+                     </font>
+                  </TextArea>
+                  <ImageView fx:id="homeImage" fitHeight="25.0" fitWidth="25.0" layoutX="361.0" layoutY="13.0" opacity="0.5" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="12.0">
+                     <image>
+                        <Image url="file:/C:/Users/bened/Desktop/Coding/Java/Code/SchoolUtilities/src/com/acrylic/resources/home.png" />
+                     </image></ImageView>
                     </children>
                 </AnchorPane>
             </children>
