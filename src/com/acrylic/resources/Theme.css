@@ -46,7 +46,7 @@
     -fx-padding: 3px 25px 3px 5px;
 }
 
-.button:hover,
+#sidebar > .button:hover,
 .menu:showing,
 .menu-item:focused {
     -fx-background-color: -focus-color !important;

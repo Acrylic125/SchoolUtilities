@@ -1,22 +1,32 @@
 package com.acrylic.main;
 
+import com.acrylic.searcher.Searchable;
 import com.acrylic.utils.Alignment;
 import com.acrylic.utils.CSSBuilder;
 import com.acrylic.utils.FXUtils;
+import javafx.animation.FadeTransition;
+import javafx.animation.ScaleTransition;
 import javafx.scene.control.Button;
 import javafx.scene.paint.Color;
-import javafx.scene.text.*;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
+import javafx.util.Duration;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Locale;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-public abstract class MenuRedirectOption {
+public abstract class MenuRedirectOption implements Searchable {
 
-    private final String id;
+    private final Pattern idPattern;
     private final Button button;
+    private Color originalColor;
 
     public MenuRedirectOption(@NotNull String id, @NotNull Button button) {
-        this.id = id.toLowerCase(Locale.ROOT);
+        this.idPattern = Pattern.compile(id.toLowerCase(Locale.ROOT));
         this.button = button;
     }
 
@@ -24,9 +34,28 @@ public abstract class MenuRedirectOption {
         this(id, new Button());
     }
 
+    public void disappear() {
+        ScaleTransition start = new ScaleTransition(Duration.millis(1000));
+        start.setNode(button);
+        start.setToX(0);
+        start.setToY(0);
+        start.playFromStart();
+    }
+
+    public void appear() {
+        ScaleTransition start = new ScaleTransition(Duration.millis(1000));
+        start.setNode(button);
+        start.setFromX(0);
+        start.setFromY(0);
+        start.setToX(1);
+        start.setToY(1);
+        start.playFromStart();
+    }
+
     @NotNull
-    public String getID() {
-        return id;
+    @Override
+    public Pattern getIDPattern() {
+        return idPattern;
     }
 
     @NotNull
@@ -39,14 +68,31 @@ public abstract class MenuRedirectOption {
         FXUtils.setMinMaxSizeByFactorFromPref(button, 1f, 2f);
         button.setTextFill(Color.WHITE);
         button.setGraphic(getTextFlow());
+        originalColor = Color.rgb(r, g, b, alpha);
         button.setStyle(CSSBuilder.builder()
-                .addBackgroundColor(Color.rgb(r, g, b, alpha))
+                .addBackgroundColor(originalColor)
                 .addFontWeight(FontWeight.BOLD)
                 .addBackgroundRadius(25)
                 .addAlignment(Alignment.TOP_LEFT)
                 .addPadding(10)
                 .build()
         );
+        initAnimation();
+    }
+
+    private void initAnimation() {
+        FadeTransition fadeIn = new FadeTransition(Duration.millis(300));
+        fadeIn.setNode(button);
+        fadeIn.setFromValue(0.7f);
+        fadeIn.setToValue(1f);
+        button.setOnMouseEntered(e -> fadeIn.playFromStart());
+        FadeTransition fadeOut = new FadeTransition(Duration.millis(300));
+        fadeOut.setNode(button);
+        fadeOut.setFromValue(1f);
+        fadeOut.setToValue(0.7f);
+        button.setOnMouseExited(e -> fadeOut.playFromStart());
+        appear();
+        fadeOut.playFromStart();
     }
 
     private TextFlow getTextFlow() {
