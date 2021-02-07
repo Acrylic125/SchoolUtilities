@@ -1,6 +1,7 @@
 package com.acrylic.main;
 
 import com.acrylic.searcher.FXSearchable;
+import com.acrylic.searcher.Searchable;
 import com.acrylic.utils.Alignment;
 import com.acrylic.utils.CSSBuilder;
 import com.acrylic.utils.FXUtils;
@@ -14,20 +15,21 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.util.Duration;
+import org.ahocorasick.trie.Trie;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Locale;
 
 public abstract class MenuRedirectOption implements FXSearchable {
 
-    private final String[] ids;
+    private final Trie ids;
+    private final String[] idArray;
     private final Button button;
     private Color originalColor;
 
     public MenuRedirectOption(@NotNull String[] ids, @NotNull Button button) {
-        this.ids = new String[ids.length];
-        for (int i = 0; i < ids.length; i++)
-            this.ids[i] = ids[i].toUpperCase(Locale.ROOT);
+        this.ids = Searchable.convertToIDTrie(ids);
+        this.idArray = Searchable.convertToIDArray(ids);
         this.button = button;
     }
 
@@ -55,8 +57,13 @@ public abstract class MenuRedirectOption implements FXSearchable {
 
     @NotNull
     @Override
-    public String[] getIDs() {
+    public Trie getIDs() {
         return ids;
+    }
+
+    @Override
+    public String[] getIDArray() {
+        return idArray;
     }
 
     @NotNull
