@@ -108,20 +108,20 @@ public final class GridMapper {
     }
 
     public boolean singleMapWith(@NotNull Node node) {
-        if (currentX > maxX && currentY > maxY) {
+        if (currentX <= maxX && currentY <= maxY) {
             gridPane.add(node, currentX, currentY);
             if (startFrom == UIFormatStyle.HORIZONTAL) {
                 currentX += incrementX;
-                if (currentX > maxX)
+                if (currentX >= maxX)
                     nextY();
             } else {
                 currentY += incrementY;
-                if (currentY > maxY)
+                if (currentY >= maxY)
                     nextX();
             }
-            return true;
+            return false;
         }
-        return false;
+        return true;
     }
 
     public void nextX() {

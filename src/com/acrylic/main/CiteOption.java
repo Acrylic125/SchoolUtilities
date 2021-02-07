@@ -9,7 +9,7 @@ public class CiteOption extends MenuRedirectOption {
     private final Text[] texts;
 
     public CiteOption() {
-        super("Cite");
+        super(new String[] { "cite", "citation", "quote", "web" });
         texts = getDefaultFormatTexts("Citer", "This useful resource allows you to cite sources with ease!", " ", "Choose Harvard or APA.");
         init(200, 200, 217, 85, 52, 0.5f);
     }

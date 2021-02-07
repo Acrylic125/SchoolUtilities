@@ -8,7 +8,7 @@ public class QuickLinksOption extends MenuRedirectOption {
     private final Text[] texts;
 
     public QuickLinksOption() {
-        super("Cite");
+        super(new String[] { "quick", "links", "direct", "redirect" });
         texts = getDefaultFormatTexts("Quick Link", "A quick access point to store links or files. Organise content based on the subject you are using it for.");
         init(200, 200, 70, 212, 131, 0.5f);
     }

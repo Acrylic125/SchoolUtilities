@@ -6,6 +6,7 @@ import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
@@ -16,7 +17,7 @@ public class MainController {
     @FXML private ImageView homeImage;
     @FXML private ImageView searchImage;
     @FXML private AnchorPane mainAnchorPane;
-    @FXML private TextArea search;
+    @FXML private TextField search;
     @FXML private Button settings_button;
     @FXML private Button about_button;
     @FXML private ScrollPane main;
@@ -35,6 +36,7 @@ public class MainController {
         addOptionWithGrid(new GPACalculatorOption(), 1, 0);
         main.setContent(selectionGrid);
         setScrollingSpeed(1.3f);
+        searcher.initSearchBar();
     }
 
     public void addOptionWithGrid(@NotNull MenuRedirectOption option, int x, int y) {
@@ -58,7 +60,7 @@ public class MainController {
         return mainAnchorPane;
     }
 
-    public TextArea getSearch() {
+    public TextField getSearch() {
         return search;
     }
 

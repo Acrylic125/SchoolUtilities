@@ -20,9 +20,9 @@ public interface Searcher<T extends Searchable> {
     }
 
     default void iterateOptionsByID(@NotNull String search, @NotNull CancellableIterated<T> action) {
-        search = search.toLowerCase(Locale.ROOT);
+        search = search.toUpperCase(Locale.ROOT);
         for (T menuRedirectOption : getSearchFrom()) {
-            if (menuRedirectOption.getIDPattern().matcher(search).find())
+            if (menuRedirectOption.matchID(search))
                 if (action.accept(menuRedirectOption))
                     return;
         }

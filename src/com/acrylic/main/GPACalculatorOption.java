@@ -8,7 +8,7 @@ public class GPACalculatorOption extends MenuRedirectOption {
     private final Text[] texts;
 
     public GPACalculatorOption() {
-        super("Cite");
+        super(new String[] { "gpa", "calculator", "grade", "point", "average" });
         texts = getDefaultFormatTexts("GPA Calculator", "Calculate your gpa either cumulative or for this term.", "", "Generate reports for this semester or view your progression throughout your school life.");
         init(200, 200, 173, 47, 169, 0.5f);
     }

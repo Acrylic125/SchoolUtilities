@@ -17,21 +17,22 @@ import javafx.util.Duration;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Locale;
-import java.util.regex.Pattern;
 
 public abstract class MenuRedirectOption implements FXSearchable {
 
-    private final Pattern idPattern;
+    private final String[] ids;
     private final Button button;
     private Color originalColor;
 
-    public MenuRedirectOption(@NotNull String id, @NotNull Button button) {
-        this.idPattern = Pattern.compile(id.toLowerCase(Locale.ROOT));
+    public MenuRedirectOption(@NotNull String[] ids, @NotNull Button button) {
+        this.ids = new String[ids.length];
+        for (int i = 0; i < ids.length; i++)
+            this.ids[i] = ids[i].toUpperCase(Locale.ROOT);
         this.button = button;
     }
 
-    public MenuRedirectOption(@NotNull String id) {
-        this(id, new Button());
+    public MenuRedirectOption(@NotNull String[] ids) {
+        this(ids, new Button());
     }
 
     public void disappear() {
@@ -54,8 +55,8 @@ public abstract class MenuRedirectOption implements FXSearchable {
 
     @NotNull
     @Override
-    public Pattern getIDPattern() {
-        return idPattern;
+    public String[] getIDs() {
+        return ids;
     }
 
     @NotNull
