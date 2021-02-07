@@ -1,11 +1,12 @@
 package com.acrylic.main;
 
-import com.acrylic.searcher.Searchable;
+import com.acrylic.searcher.FXSearchable;
 import com.acrylic.utils.Alignment;
 import com.acrylic.utils.CSSBuilder;
 import com.acrylic.utils.FXUtils;
 import javafx.animation.FadeTransition;
 import javafx.animation.ScaleTransition;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -16,10 +17,9 @@ import javafx.util.Duration;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Locale;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public abstract class MenuRedirectOption implements Searchable {
+public abstract class MenuRedirectOption implements FXSearchable {
 
     private final Pattern idPattern;
     private final Button button;
@@ -60,6 +60,11 @@ public abstract class MenuRedirectOption implements Searchable {
 
     @NotNull
     public Button getButton() {
+        return button;
+    }
+
+    @Override
+    public @NotNull Node getNode() {
         return button;
     }
 

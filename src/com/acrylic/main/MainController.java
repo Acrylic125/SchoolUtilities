@@ -1,24 +1,17 @@
 package com.acrylic.main;
 
-import com.acrylic.searcher.Searcher;
 import com.acrylic.utils.FXUtils;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.VBox;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.*;
-import java.util.function.Consumer;
-
-public class MainController implements Searcher<MenuRedirectOption> {
+public class MainController {
 
     @FXML private ImageView homeImage;
     @FXML private ImageView searchImage;
@@ -29,7 +22,7 @@ public class MainController implements Searcher<MenuRedirectOption> {
     @FXML private ScrollPane main;
 
     private final GridPane selectionGrid = new GridPane();
-    private final Collection<MenuRedirectOption> menuRedirectOptions = new ArrayList<>();
+    private final MainSearcher searcher = new MainSearcher(this);
 
     @FXML
     private void initialize() {
@@ -45,20 +38,47 @@ public class MainController implements Searcher<MenuRedirectOption> {
     }
 
     public void addOptionWithGrid(@NotNull MenuRedirectOption option, int x, int y) {
-        addOption(option);
+        searcher.addOption(option);
         selectionGrid.add(option.getButton(), x, y);
-    }
-
-    public void addOption(@NotNull MenuRedirectOption option) {
-        menuRedirectOptions.add(option);
     }
 
     private void setScrollingSpeed(float speed) {
         main.getContent().setOnScroll(event -> main.setVvalue(main.getVvalue() + -(event.getDeltaY() * speed)));
     }
 
-    @Override
-    public @NotNull Collection<MenuRedirectOption> getSearchFrom() {
-        return menuRedirectOptions;
+    public ImageView getHomeImage() {
+        return homeImage;
+    }
+
+    public ImageView getSearchImage() {
+        return searchImage;
+    }
+
+    public AnchorPane getMainAnchorPane() {
+        return mainAnchorPane;
+    }
+
+    public TextArea getSearch() {
+        return search;
+    }
+
+    public Button getSettings_button() {
+        return settings_button;
+    }
+
+    public Button getAbout_button() {
+        return about_button;
+    }
+
+    public ScrollPane getMain() {
+        return main;
+    }
+
+    public GridPane getSelectionGrid() {
+        return selectionGrid;
+    }
+
+    public MainSearcher getSearcher() {
+        return searcher;
     }
 }
