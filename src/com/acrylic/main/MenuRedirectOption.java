@@ -9,6 +9,10 @@ import javafx.animation.FadeTransition;
 import javafx.animation.ScaleTransition;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -78,7 +82,7 @@ public abstract class MenuRedirectOption implements FXSearchable {
 
     public void init(int width, int height, int r, int g, int b, float alpha) {
         button.setPrefSize(width, height);
-        FXUtils.setMinMaxSizeByFactorFromPref(button, 1f, 2f);
+        FXUtils.setMinMaxSizeAsPref(button);
         button.setTextFill(Color.WHITE);
         button.setGraphic(getTextFlow());
         originalColor = Color.rgb(r, g, b, alpha);

@@ -1,8 +1,11 @@
 package com.acrylic.utils;
 
+import javafx.scene.Node;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public final class FXUtils {
 
@@ -30,12 +33,12 @@ public final class FXUtils {
         cloneSizeFrom(region, cloneFrom, 1f, 1f);
     }
 
-    public static void cloneSizeFrom(@NotNull Region region, @NotNull Region cloneFrom, float minFactor, float maxFactor) {
-        region.setPrefSize(region.getPrefWidth(), region.getPrefHeight());
+    public static void cloneSizeFrom(@NotNull Region region, @NotNull Region cloneFrom, double minFactor, double maxFactor) {
+        region.setPrefSize(cloneFrom.getPrefWidth(), cloneFrom.getPrefHeight());
         setMinMaxSizeByFactorFromPref(region, minFactor, maxFactor);
     }
 
-    public static void setMinMaxSizeByFactorFromPref(@NotNull Region region, float minFactor, float maxFactor) {
+    public static void setMinMaxSizeByFactorFromPref(@NotNull Region region, double minFactor, double maxFactor) {
         double width = region.getPrefWidth(), height = region.getPrefHeight();
         region.setMinSize(width * minFactor, height * minFactor);
         region.setMaxSize(width * maxFactor, height * maxFactor);
@@ -43,6 +46,18 @@ public final class FXUtils {
 
     public static void setMinMaxSizeAsPref(@NotNull Region region) {
         setMinMaxSizeByFactorFromPref(region, 1f, 1f);
+    }
+
+    public static void setInfiniteMaxSize(@NotNull Region region) {
+        region.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+    }
+
+    @Nullable
+    public static Node getNode(@NotNull GridPane gridPane, int xIndex, int yIndex) {
+        for (Node child : gridPane.getChildren())
+            if (GridPane.getColumnIndex(child) == xIndex && GridPane.getRowIndex(child) == yIndex)
+                return child;
+        return null;
     }
 
 }

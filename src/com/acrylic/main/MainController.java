@@ -1,15 +1,13 @@
 package com.acrylic.main;
 
 import com.acrylic.utils.FXUtils;
+import com.acrylic.utils.RealignmentGridPane;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
-import javafx.scene.control.Button;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.Node;
+import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.GridPane;
+import javafx.scene.layout.*;
 import org.jetbrains.annotations.NotNull;
 
 public class MainController {
@@ -22,21 +20,28 @@ public class MainController {
     @FXML private Button about_button;
     @FXML private ScrollPane main;
 
-    private final GridPane selectionGrid = new GridPane();
+    private final RealignmentGridPane selectionGrid = new RealignmentGridPane();
     private final MainSearcher searcher = new MainSearcher(this);
 
     @FXML
     private void initialize() {
         main.setPadding(new Insets(30));
         FXUtils.cloneSizeFrom(selectionGrid, main);
+        FXUtils.setMinMaxSizeByFactorFromPref(selectionGrid, 1f, 2f);
         selectionGrid.setHgap(20);
         selectionGrid.setVgap(20);
         addOptionWithGrid(new CiteOption(), 0, 0);
         addOptionWithGrid(new QuickLinksOption(), 0, 1);
         addOptionWithGrid(new GPACalculatorOption(), 1, 0);
+        selectionGrid.init();
         main.setContent(selectionGrid);
+        main.setFitToHeight(true);
+        main.setFitToWidth(true);
         setScrollingSpeed(1.3f);
         searcher.initSearchBar();
+        selectionGrid.widthProperty().addListener((observableValue, oldValue, newValue) -> {
+            System.out.println(oldValue + " " + newValue);
+        });
     }
 
     public void addOptionWithGrid(@NotNull MenuRedirectOption option, int x, int y) {
@@ -83,4 +88,5 @@ public class MainController {
     public MainSearcher getSearcher() {
         return searcher;
     }
+
 }
