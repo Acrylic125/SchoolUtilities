@@ -1,10 +1,9 @@
 package com.acrylic.main;
 
 import com.acrylic.utils.FXUtils;
-import com.acrylic.utils.RealignmentGridPane;
+import com.acrylic.utils.RigidGridPane;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
-import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
@@ -20,7 +19,7 @@ public class MainController {
     @FXML private Button about_button;
     @FXML private ScrollPane main;
 
-    private final RealignmentGridPane selectionGrid = new RealignmentGridPane();
+    private final RigidGridPane selectionGrid = new RigidGridPane();
     private final MainSearcher searcher = new MainSearcher(this);
 
     @FXML
@@ -30,6 +29,8 @@ public class MainController {
         FXUtils.setMinMaxSizeByFactorFromPref(selectionGrid, 1f, 2f);
         selectionGrid.setHgap(20);
         selectionGrid.setVgap(20);
+        selectionGrid.setSizeX(200);
+        selectionGrid.setSizeY(200);
         addOptionWithGrid(new CiteOption(), 0, 0);
         addOptionWithGrid(new QuickLinksOption(), 0, 1);
         addOptionWithGrid(new GPACalculatorOption(), 1, 0);
@@ -39,9 +40,6 @@ public class MainController {
         main.setFitToWidth(true);
         setScrollingSpeed(1.3f);
         searcher.initSearchBar();
-        selectionGrid.widthProperty().addListener((observableValue, oldValue, newValue) -> {
-            System.out.println(oldValue + " " + newValue);
-        });
     }
 
     public void addOptionWithGrid(@NotNull MenuRedirectOption option, int x, int y) {

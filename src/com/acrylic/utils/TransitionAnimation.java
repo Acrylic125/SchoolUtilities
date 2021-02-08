@@ -17,12 +17,6 @@ public class TransitionAnimation extends Transition {
         this.animation = animation;
     }
 
-    @Override
-    public void playFromStart() {
-        super.playFromStart();
-        System.out.println("TTTTTTTTTTT");
-    }
-
     @NotNull
     public Mode getMode() {
         return mode;
@@ -35,7 +29,6 @@ public class TransitionAnimation extends Transition {
 
     @Override
     public void interpolate(double v) {
-        System.out.println(v + " " + mode);
         animation.accept((mode == Mode.IN) ? v : (1 - v));
     }
 
