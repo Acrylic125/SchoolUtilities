@@ -1,5 +1,6 @@
 package com.acrylic.main;
 
+import com.acrylic.panes.RigidOverflowGridPane;
 import com.acrylic.utils.FXUtils;
 import com.acrylic.panes.RigidGridPane;
 import javafx.fxml.FXML;
@@ -19,7 +20,7 @@ public class MainController {
     @FXML private Button about_button;
     @FXML private ScrollPane main;
 
-    private final RigidGridPane selectionGrid = new RigidGridPane();
+    private final RigidOverflowGridPane selectionGrid = new RigidOverflowGridPane();
     private final MainSearcher searcher = new MainSearcher(this);
 
     @FXML
@@ -34,7 +35,6 @@ public class MainController {
         addOptionWithGrid(new CiteOption(), 0, 0);
         addOptionWithGrid(new QuickLinksOption(), 0, 1);
         addOptionWithGrid(new GPACalculatorOption(), 1, 0);
-        selectionGrid.init();
         main.setContent(selectionGrid);
         main.setFitToHeight(true);
         main.setFitToWidth(true);

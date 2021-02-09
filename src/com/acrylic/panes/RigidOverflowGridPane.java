@@ -1,8 +1,8 @@
 package com.acrylic.panes;
 
 import com.acrylic.utils.FXUtils;
-import com.acrylic.utils.IntCoord2D;
 import com.acrylic.utils.GridMapper;
+import com.acrylic.utils.ColumnRow;
 import javafx.scene.Node;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Region;
@@ -24,7 +24,7 @@ import java.util.Map;
  * NOTE:
  * The default add, clear, remove node functions
  * does not modify the bases. This means that when
- * #update is called, ndoes added with #add will not
+ * this is updated, ndoes added with #add will not
  * appear or nodes removed from getChildrent().remove()
  * will still appear. The base grid pane is used as
  * the direct display whereas this pane helps with the
@@ -32,11 +32,12 @@ import java.util.Map;
  *
  * Use #addNodeToBasePane and #removeNodeFromBasePane
  * instead.
+ *
  */
 public class RigidOverflowGridPane extends GridPane {
 
     private final GridMapper gridMapper = new GridMapper(this);
-    private final Map<Node, IntCoord2D> baseNodeLocations = new HashMap<>();
+    private final Map<Node, ColumnRow> baseNodeLocations = new HashMap<>();
     private int sizeX = 100, sizeY = 100;
     /**
      * If true, the nodes will adapt and overflow to the next
@@ -46,14 +47,70 @@ public class RigidOverflowGridPane extends GridPane {
     private int baseColumns = 0, baseRows = 0;
 
     public RigidOverflowGridPane() {
-        init();
+        super.widthProperty().addListener((observableValue, oldValue, newValue) -> updateWidth(oldValue, newValue));
+        super.heightProperty().addListener((observableValue, oldValue, newValue) -> updateHeight(oldValue, newValue));
+    }
+
+    private void updateWidth(Number oldValue, Number newValue) {
+        System.out.println("Columns: " + getColumnsByWidth((Double) newValue));
+    }
+
+    private void updateHeight(Number oldValue, Number newValue) {
+        System.out.println("Rows: " + getRowsByHeight((Double) newValue));
+    }
+
+    private double getRequiredWidthExpansion() {
+        return getOccupiedWidth(baseColumns + 1);
     }
 
     /**
-     * Initializer.
+     *
+     * @return The occupied width of all the nodes.
      */
-    private void init() {
-        //TODO:
+    private double getBaseOccupiedWidth() {
+        return getOccupiedWidth(baseColumns);
+    }
+
+    /**
+     *
+     * @param columns Columns.
+     * @return The width occupied by the specified amount
+     * of columns.
+     */
+    private double getOccupiedWidth(int columns) {
+        return (columns * sizeX) + (getVgap() * (columns - 1));
+    }
+
+    private int getColumnsByWidth(double width) {
+        double v = getVgap();
+        return (int) Math.floor((width + v) / (sizeX + v));
+    }
+
+    private double getRequiredHeightExpansion() {
+        return getOccupiedHeight(baseRows + 1);
+    }
+
+    /**
+     *
+     * @return The occupied height of all the nodes.
+     */
+    private double getBaseOccupiedHeight() {
+        return getOccupiedHeight(baseRows);
+    }
+
+    /**
+     *
+     * @param rows Rows.
+     * @return The height occupied by the specified amount
+     * of rows.
+     */
+    private double getOccupiedHeight(int rows) {
+        return (rows * sizeY) + (getHgap() * (rows - 1));
+    }
+
+    private int getRowsByHeight(double height) {
+        double h = getHgap();
+        return (int) Math.floor((height + h) / (sizeY + h));
     }
 
     public int getSizeX() {
@@ -105,7 +162,7 @@ public class RigidOverflowGridPane extends GridPane {
     }
 
     @NotNull
-    public Map<Node, IntCoord2D> getBaseNodeLocations() {
+    public Map<Node, ColumnRow> getBaseNodeLocations() {
         return baseNodeLocations;
     }
 
@@ -120,6 +177,15 @@ public class RigidOverflowGridPane extends GridPane {
         super.getChildren().add(node);
         addBaseNodeLocation(node, column, row);
         adoptNodeSize(node);
+        baseColumns = Math.max(baseColumns, column);
+        baseRows = Math.max(baseRows, row);
+    }
+
+    public void removeAllNodesFromBasePane(@NotNull Node... nodes) {
+        super.getChildren().removeAll(nodes);
+        for (Node node : nodes)
+            removeBaseNodeLocation(node);
+        recalculateBaseColumnsAndRows();
     }
 
     /**
@@ -130,6 +196,24 @@ public class RigidOverflowGridPane extends GridPane {
     public void removeNodeFromBasePane(@NotNull Node node) {
         super.getChildren().remove(node);
         removeBaseNodeLocation(node);
+        recalculateBaseColumnsAndRows();
+    }
+
+    public void clearAllNodesFromBasePane() {
+        super.getChildren().clear();
+        baseNodeLocations.clear();
+        recalculateBaseColumnsAndRows();
+    }
+
+    private void recalculateBaseColumnsAndRows() {
+        baseColumns = 0;
+        baseRows = 0;
+        if (baseNodeLocations.size() > 0) {
+            baseNodeLocations.forEach((node, columnRow) -> {
+                baseColumns = Math.max(columnRow.getColumn(), baseColumns);
+                baseRows = Math.max(columnRow.getRow(), baseRows);
+            });
+        }
     }
 
     public void readoptAllNodeSize() {
@@ -145,12 +229,8 @@ public class RigidOverflowGridPane extends GridPane {
         }
     }
 
-    public void update() {
-
-    }
-
     private void addBaseNodeLocation(@NotNull Node node, int column, int row) {
-        baseNodeLocations.put(node, new IntCoord2D(column, row));
+        baseNodeLocations.put(node, new ColumnRow(column, row));
     }
 
     private void removeBaseNodeLocation(@NotNull Node node) {
@@ -158,7 +238,7 @@ public class RigidOverflowGridPane extends GridPane {
     }
 
     @Nullable
-    private IntCoord2D getBaseNodeLocation(@NotNull Node node) {
+    private ColumnRow getBaseNodeLocation(@NotNull Node node) {
         return baseNodeLocations.get(node);
     }
 
