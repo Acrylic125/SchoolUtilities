@@ -1,5 +1,6 @@
 package com.acrylic.utils;
 
+import com.acrylic.enums.UIFormatStyle;
 import javafx.scene.Node;
 import javafx.scene.layout.GridPane;
 import org.jetbrains.annotations.NotNull;

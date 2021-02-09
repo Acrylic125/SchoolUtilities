@@ -1,7 +1,7 @@
 package com.acrylic.main;
 
 import com.acrylic.utils.FXUtils;
-import com.acrylic.utils.RigidGridPane;
+import com.acrylic.panes.RigidGridPane;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;

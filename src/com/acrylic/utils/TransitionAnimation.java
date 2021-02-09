@@ -1,5 +1,6 @@
 package com.acrylic.utils;
 
+import com.acrylic.enums.Mode;
 import javafx.animation.Transition;
 import javafx.util.Duration;
 import org.jetbrains.annotations.NotNull;

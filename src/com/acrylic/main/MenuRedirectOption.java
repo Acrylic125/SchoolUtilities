@@ -2,17 +2,13 @@ package com.acrylic.main;
 
 import com.acrylic.searcher.FXSearchable;
 import com.acrylic.searcher.Searchable;
-import com.acrylic.utils.Alignment;
+import com.acrylic.enums.Alignment;
 import com.acrylic.utils.CSSBuilder;
 import com.acrylic.utils.FXUtils;
 import javafx.animation.FadeTransition;
 import javafx.animation.ScaleTransition;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -21,8 +17,6 @@ import javafx.scene.text.TextFlow;
 import javafx.util.Duration;
 import org.ahocorasick.trie.Trie;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.Locale;
 
 public abstract class MenuRedirectOption implements FXSearchable {
 

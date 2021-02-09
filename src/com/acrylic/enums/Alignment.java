@@ -1,4 +1,4 @@
-package com.acrylic.utils;
+package com.acrylic.enums;
 
 import org.jetbrains.annotations.NotNull;
 

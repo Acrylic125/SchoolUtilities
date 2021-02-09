@@ -1,5 +1,7 @@
-package com.acrylic.utils;
+package com.acrylic.panes;
 
+import com.acrylic.utils.FXUtils;
+import com.acrylic.utils.GridMapper;
 import javafx.scene.Node;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Region;

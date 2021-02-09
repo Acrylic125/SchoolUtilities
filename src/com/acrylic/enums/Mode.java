@@ -1,4 +1,4 @@
-package com.acrylic.utils;
+package com.acrylic.enums;
 
 public enum Mode {
 
