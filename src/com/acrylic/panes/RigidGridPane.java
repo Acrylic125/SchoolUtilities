@@ -1,7 +1,9 @@
 package com.acrylic.panes;
 
+import com.acrylic.enums.UIFormatStyle;
 import com.acrylic.utils.FXUtils;
 import com.acrylic.utils.GridMapper;
+import javafx.beans.value.ChangeListener;
 import javafx.scene.Node;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Region;
@@ -28,11 +30,21 @@ public class RigidGridPane extends GridPane {
         throw new UnsupportedOperationException("This is not supported!");
     }
 
+    @NotNull
+    public UIFormatStyle getFormatStyle() {
+        return gridMapper.getFormatStyle();
+    }
+
     public void init() {
         System.out.println(calculateBaseGridX() + " " + calculateBaseGridY());
-        widthProperty().addListener((observableValue, oldValue, newValue) -> {
+        switch (getFormatStyle()) {
+            case VERTICAL -> widthProperty().addListener((observableValue, oldValue, newValue) -> {
 
-        });
+            });
+            case HORIZONTAL -> heightProperty().addListener((observableValue, oldValue, newValue) -> {
+
+            });
+        }
     }
 
     public void setGridMapper(@NotNull GridMapper gridMapper) {
@@ -68,6 +80,14 @@ public class RigidGridPane extends GridPane {
         return calculateBaseGridY();
     }
 
+    private int calculateDesiredX() {
+        return 0;
+    }
+
+    /**
+     *
+     * @return Tne length of the x-axis to fit
+     */
     private double calculateBaseGridX() {
         int count = getColumnCount();
         return (count * sizeX) + ((count - 1) * getVgap());

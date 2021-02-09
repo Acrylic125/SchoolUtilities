@@ -12,7 +12,7 @@ public final class GridMapper {
     private int initialX = 0, initialY = 0;
     private int currentX = 0, currentY = 0;
     private int incrementX = 1, incrementY = 1;
-    private UIFormatStyle startFrom = UIFormatStyle.HORIZONTAL;
+    private UIFormatStyle formatStyle = UIFormatStyle.HORIZONTAL;
 
     public GridMapper(@NotNull GridPane gridPane) {
         this.gridPane = gridPane;
@@ -103,15 +103,20 @@ public final class GridMapper {
         return this;
     }
 
-    public GridMapper setStartFrom(@NotNull UIFormatStyle startFrom) {
-        this.startFrom = startFrom;
+    @NotNull
+    public UIFormatStyle getFormatStyle() {
+        return formatStyle;
+    }
+
+    public GridMapper setFormatStyle(@NotNull UIFormatStyle formatStyle) {
+        this.formatStyle = formatStyle;
         return this;
     }
 
     public boolean singleMapWith(@NotNull Node node) {
         if (currentX <= maxX && currentY <= maxY) {
             gridPane.add(node, currentX, currentY);
-            if (startFrom == UIFormatStyle.HORIZONTAL) {
+            if (formatStyle == UIFormatStyle.HORIZONTAL) {
                 currentX += incrementX;
                 if (currentX >= maxX)
                     nextY();
