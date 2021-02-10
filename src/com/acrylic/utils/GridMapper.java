@@ -5,13 +5,15 @@ import javafx.scene.Node;
 import javafx.scene.layout.GridPane;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Collection;
+
 public final class GridMapper {
 
     private final GridPane gridPane;
-    private int maxX = 3, maxY = 3;
-    private int initialX = 0, initialY = 0;
-    private int currentX = 0, currentY = 0;
-    private int incrementX = 1, incrementY = 1;
+    private int maxColumns = Integer.MAX_VALUE, maxRows = Integer.MAX_VALUE;
+    private int initialColumn = 0, initialRow = 0;
+    private int currentColumn = 0, currentRow = 0;
+    private int incrementColumn = 1, incrementRow = 1;
     private UIFormatStyle formatStyle = UIFormatStyle.HORIZONTAL;
 
     public GridMapper(@NotNull GridPane gridPane) {
@@ -19,8 +21,8 @@ public final class GridMapper {
     }
 
     public GridMapper reset() {
-        currentX = 0;
-        currentY = 0;
+        currentColumn = 0;
+        currentRow = 0;
         return this;
     }
 
@@ -29,77 +31,85 @@ public final class GridMapper {
         return gridPane;
     }
 
-    public int getMaxX() {
-        return maxX;
+    public int getMaxColumns() {
+        return maxColumns;
     }
 
-    public GridMapper setMaxX(int maxX) {
-        this.maxX = maxX;
+    public GridMapper setMaxColumns(int maxColumns) {
+        this.maxColumns = maxColumns;
         return this;
     }
 
-    public int getMaxY() {
-        return maxY;
+    public GridMapper setMaxColumns() {
+        return setMaxColumns(Integer.MAX_VALUE);
     }
 
-    public GridMapper setMaxY(int maxY) {
-        this.maxY = maxY;
+    public int getMaxRows() {
+        return maxRows;
+    }
+
+    public GridMapper setMaxRows(int maxRows) {
+        this.maxRows = maxRows;
         return this;
     }
 
-    public int getInitialX() {
-        return initialX;
+    public GridMapper setMaxRows() {
+        return setMaxRows(Integer.MAX_VALUE);
     }
 
-    public GridMapper setInitialX(int initialX) {
-        this.initialX = initialX;
-        this.currentX = initialX;
+    public int getInitialColumn() {
+        return initialColumn;
+    }
+
+    public GridMapper setInitialColumn(int initialColumn) {
+        this.initialColumn = initialColumn;
+        this.currentColumn = initialColumn;
         return this;
     }
 
-    public int getInitialY() {
-        return initialY;
+    public int getInitialRow() {
+        return initialRow;
     }
 
-    public GridMapper setInitialY(int initialY) {
-        this.initialY = initialY;
-        this.currentY = initialY;
+    public GridMapper setInitialRow(int initialRow) {
+        this.initialRow = initialRow;
+        this.currentRow = initialRow;
         return this;
     }
 
-    public int getCurrentX() {
-        return currentX;
+    public int getCurrentColumn() {
+        return currentColumn;
     }
 
-    public GridMapper setCurrentX(int currentX) {
-        this.currentX = currentX;
+    public GridMapper setCurrentColumn(int currentColumn) {
+        this.currentColumn = currentColumn;
         return this;
     }
 
-    public int getCurrentY() {
-        return currentY;
+    public int getCurrentRow() {
+        return currentRow;
     }
 
-    public GridMapper setCurrentY(int currentY) {
-        this.currentY = currentY;
+    public GridMapper setCurrentRow(int currentRow) {
+        this.currentRow = currentRow;
         return this;
     }
 
-    public int getIncrementX() {
-        return incrementX;
+    public int getIncrementColumn() {
+        return incrementColumn;
     }
 
-    public GridMapper setIncrementX(int incrementX) {
-        this.incrementX = incrementX;
+    public GridMapper setIncrementColumn(int incrementColumn) {
+        this.incrementColumn = incrementColumn;
         return this;
     }
 
-    public int getIncrementY() {
-        return incrementY;
+    public int getIncrementRow() {
+        return incrementRow;
     }
 
-    public GridMapper setIncrementY(int incrementY) {
-        this.incrementY = incrementY;
+    public GridMapper setIncrementRow(int incrementRow) {
+        this.incrementRow = incrementRow;
         return this;
     }
 
@@ -113,16 +123,22 @@ public final class GridMapper {
         return this;
     }
 
+    public void map(@NotNull Collection<? extends Node> nodes) {
+        reset();
+        for (Node node : nodes)
+            singleMapWith(node);
+    }
+
     public boolean singleMapWith(@NotNull Node node) {
-        if (currentX <= maxX && currentY <= maxY) {
-            gridPane.add(node, currentX, currentY);
+        if (currentColumn <= maxColumns && currentRow <= maxRows) {
+            gridPane.add(node, currentColumn, currentRow);
             if (formatStyle == UIFormatStyle.HORIZONTAL) {
-                currentX += incrementX;
-                if (currentX >= maxX)
+                currentColumn += incrementColumn;
+                if (currentColumn >= maxColumns)
                     nextY();
             } else {
-                currentY += incrementY;
-                if (currentY >= maxY)
+                currentRow += incrementRow;
+                if (currentRow >= maxRows)
                     nextX();
             }
             return false;
@@ -131,13 +147,13 @@ public final class GridMapper {
     }
 
     public void nextX() {
-        currentY = initialY;
-        currentX += incrementX;
+        currentRow = initialRow;
+        currentColumn += incrementColumn;
     }
 
     public void nextY() {
-        currentX = initialX;
-        currentY += incrementY;
+        currentColumn = initialColumn;
+        currentRow += incrementRow;
     }
 
 }

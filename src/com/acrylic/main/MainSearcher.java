@@ -2,12 +2,10 @@ package com.acrylic.main;
 
 import com.acrylic.searcher.FXSearcher;
 import com.acrylic.utils.GridMapper;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import org.jetbrains.annotations.NotNull;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -25,7 +23,7 @@ public final class MainSearcher implements FXSearcher<MenuRedirectOption> {
         searchBar.setOnKeyReleased(keyEvent -> {
             if (keyEvent.getCode().equals(KeyCode.ENTER)) {
                 mainController.getSelectionGrid().getChildren().clear();
-                mapToGridByID(searchBar.getText(), new GridMapper(mainController.getSelectionGrid()).setMaxX(2).setMaxY(10));
+                mapToGridByID(searchBar.getText(), new GridMapper(mainController.getSelectionGrid()).setMaxColumns(2).setMaxRows(10));
             }
         });
     }

@@ -1,8 +1,7 @@
 package com.acrylic.main;
 
-import com.acrylic.panes.RigidOverflowGridPane;
+import com.acrylic.paneaggregators.CollectionGridAggregator;
 import com.acrylic.utils.FXUtils;
-import com.acrylic.panes.RigidGridPane;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
@@ -20,22 +19,25 @@ public class MainController {
     @FXML private Button about_button;
     @FXML private ScrollPane main;
 
-    private final RigidOverflowGridPane selectionGrid = new RigidOverflowGridPane();
+    private final CollectionGridAggregator selectionGrid = new CollectionGridAggregator(new GridPane());
     private final MainSearcher searcher = new MainSearcher(this);
 
     @FXML
     private void initialize() {
+        GridPane gridPane = selectionGrid.getPane();
         main.setPadding(new Insets(30));
-        FXUtils.cloneSizeFrom(selectionGrid, main);
-        FXUtils.setMinMaxSizeByFactorFromPref(selectionGrid, 1f, 2f);
-        selectionGrid.setHgap(20);
-        selectionGrid.setVgap(20);
+        FXUtils.cloneSizeFrom(gridPane, main);
+        FXUtils.setMinMaxSizeByFactorFromPref(gridPane, 1f, 2f);
+        gridPane.setHgap(20);
+        gridPane.setVgap(20);
         selectionGrid.setSizeX(200);
         selectionGrid.setSizeY(200);
+        selectionGrid.setBaseRows(2);
+        selectionGrid.setBaseColumns(2);
         addOptionWithGrid(new CiteOption(), 0, 0);
         addOptionWithGrid(new QuickLinksOption(), 0, 1);
         addOptionWithGrid(new GPACalculatorOption(), 1, 0);
-        main.setContent(selectionGrid);
+        main.setContent(gridPane);
         main.setFitToHeight(true);
         main.setFitToWidth(true);
         setScrollingSpeed(1.3f);
@@ -44,7 +46,7 @@ public class MainController {
 
     public void addOptionWithGrid(@NotNull MenuRedirectOption option, int x, int y) {
         searcher.addOption(option);
-        selectionGrid.add(option.getButton(), x, y);
+        selectionGrid.getPane().add(option.getButton(), x, y);
     }
 
     private void setScrollingSpeed(float speed) {
@@ -80,7 +82,7 @@ public class MainController {
     }
 
     public GridPane getSelectionGrid() {
-        return selectionGrid;
+        return selectionGrid.getPane();
     }
 
     public MainSearcher getSearcher() {
