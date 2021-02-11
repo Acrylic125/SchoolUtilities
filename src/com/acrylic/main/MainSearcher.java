@@ -23,7 +23,7 @@ public final class MainSearcher implements FXSearcher<MenuRedirectOption> {
         searchBar.setOnKeyReleased(keyEvent -> {
             if (keyEvent.getCode().equals(KeyCode.ENTER)) {
                 mainController.getSelectionGrid().getChildren().clear();
-                mapToGridByID(searchBar.getText(), new GridMapper(mainController.getSelectionGrid()).setMaxColumns(2).setMaxRows(10));
+                mapToGridByID(searchBar.getText(), mainController.getSelectionGridAggregator().getGridMapper());
             }
         });
     }

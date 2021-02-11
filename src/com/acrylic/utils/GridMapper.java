@@ -4,8 +4,11 @@ import com.acrylic.enums.UIFormatStyle;
 import javafx.scene.Node;
 import javafx.scene.layout.GridPane;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 public final class GridMapper {
 
@@ -15,6 +18,7 @@ public final class GridMapper {
     private int currentColumn = 0, currentRow = 0;
     private int incrementColumn = 1, incrementRow = 1;
     private UIFormatStyle formatStyle = UIFormatStyle.HORIZONTAL;
+    private GridNodeAction mappedNodeAction;
 
     public GridMapper(@NotNull GridPane gridPane) {
         this.gridPane = gridPane;
@@ -123,8 +127,24 @@ public final class GridMapper {
         return this;
     }
 
-    public void map(@NotNull Collection<? extends Node> nodes) {
+    @Nullable
+    public GridNodeAction getMappedNodeAction() {
+        return mappedNodeAction;
+    }
+
+    public GridMapper setMappedNodeAction(@Nullable GridNodeAction mappedNodeAction) {
+        this.mappedNodeAction = mappedNodeAction;
+        return this;
+    }
+
+    public void mapChildren() {
         reset();
+        List<Node> nodeIterator = new ArrayList<>(gridPane.getChildren());
+        gridPane.getChildren().clear();
+        map(nodeIterator);
+    }
+
+    public void map(@NotNull Collection<? extends Node> nodes) {
         for (Node node : nodes)
             singleMapWith(node);
     }
@@ -132,6 +152,8 @@ public final class GridMapper {
     public boolean singleMapWith(@NotNull Node node) {
         if (currentColumn <= maxColumns && currentRow <= maxRows) {
             gridPane.add(node, currentColumn, currentRow);
+            if (mappedNodeAction != null)
+                mappedNodeAction.accept(node, currentColumn, currentRow);
             if (formatStyle == UIFormatStyle.HORIZONTAL) {
                 currentColumn += incrementColumn;
                 if (currentColumn >= maxColumns)
@@ -154,6 +176,13 @@ public final class GridMapper {
     public void nextY() {
         currentColumn = initialColumn;
         currentRow += incrementRow;
+    }
+
+    @FunctionalInterface
+    public interface GridNodeAction {
+
+        void accept(@NotNull Node node, int column, int row);
+
     }
 
 }

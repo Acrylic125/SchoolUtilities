@@ -15,8 +15,8 @@ public class MainController {
     @FXML private ImageView searchImage;
     @FXML private AnchorPane mainAnchorPane;
     @FXML private TextField search;
-    @FXML private Button settings_button;
-    @FXML private Button about_button;
+    @FXML private Button settingsButton;
+    @FXML private Button aboutButton;
     @FXML private ScrollPane main;
 
     private final CollectionGridAggregator selectionGrid = new CollectionGridAggregator(new GridPane());
@@ -26,31 +26,27 @@ public class MainController {
     private void initialize() {
         GridPane gridPane = selectionGrid.getPane();
         main.setPadding(new Insets(30));
-        FXUtils.cloneSizeFrom(gridPane, main);
-        FXUtils.setMinMaxSizeByFactorFromPref(gridPane, 1f, 2f);
         gridPane.setHgap(20);
         gridPane.setVgap(20);
         selectionGrid.setSizeX(200);
         selectionGrid.setSizeY(200);
-        selectionGrid.setBaseRows(2);
-        selectionGrid.setBaseColumns(2);
-        addOptionWithGrid(new CiteOption(), 0, 0);
-        addOptionWithGrid(new QuickLinksOption(), 0, 1);
-        addOptionWithGrid(new GPACalculatorOption(), 1, 0);
+        addOptionWithGrid(new CiteOption());
+        addOptionWithGrid(new QuickLinksOption());
+        addOptionWithGrid(new GPACalculatorOption());
         main.setContent(gridPane);
         main.setFitToHeight(true);
         main.setFitToWidth(true);
-        setScrollingSpeed(1.3f);
+        setScrollingSpeed(0.2f);
         searcher.initSearchBar();
     }
 
-    public void addOptionWithGrid(@NotNull MenuRedirectOption option, int x, int y) {
+    public void addOptionWithGrid(@NotNull MenuRedirectOption option) {
         searcher.addOption(option);
-        selectionGrid.getPane().add(option.getButton(), x, y);
+        selectionGrid.addNode(option.getButton());
     }
 
     private void setScrollingSpeed(float speed) {
-        main.getContent().setOnScroll(event -> main.setVvalue(main.getVvalue() + -(event.getDeltaY() * speed)));
+        main.getContent().setOnScroll(event -> main.setVvalue(main.getVvalue() + -((event.getDeltaY() / Math.abs(event.getDeltaY())) * speed)));
     }
 
     public ImageView getHomeImage() {
@@ -69,12 +65,12 @@ public class MainController {
         return search;
     }
 
-    public Button getSettings_button() {
-        return settings_button;
+    public Button getSettingsButton() {
+        return settingsButton;
     }
 
-    public Button getAbout_button() {
-        return about_button;
+    public Button getAboutButton() {
+        return aboutButton;
     }
 
     public ScrollPane getMain() {
@@ -83,6 +79,10 @@ public class MainController {
 
     public GridPane getSelectionGrid() {
         return selectionGrid.getPane();
+    }
+
+    public CollectionGridAggregator getSelectionGridAggregator() {
+        return selectionGrid;
     }
 
     public MainSearcher getSearcher() {

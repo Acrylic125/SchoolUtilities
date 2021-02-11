@@ -6,9 +6,7 @@ import javafx.scene.Node;
 import javafx.scene.layout.GridPane;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 
 public class CollectionGridAggregator implements PaneAggregator {
 
@@ -20,35 +18,45 @@ public class CollectionGridAggregator implements PaneAggregator {
      * row or column based on the {@link com.acrylic.enums.UIFormatStyle}.
      */
     private boolean adaptOnResizeOverflow = true;
-    private int baseColumns = 0, baseRows = 0;
+    private int base = 0;
 
     public CollectionGridAggregator(@NotNull GridPane gridPane) {
         this.gridPane = gridPane;
         this.gridMapper = new GridMapper(this.gridPane);
+        this.gridMapper.setMappedNodeAction((node, column, row) -> {
+            switch (getFormatStyle()) {
+                case HORIZONTAL -> this.gridPane.setMinSize(getOccupiedWidth(column), getOccupiedHeight(row + 1));
+                case VERTICAL -> this.gridPane.setMinSize(getOccupiedWidth(column + 1), getOccupiedHeight(row));
+            }
+        });
         gridPane.widthProperty().addListener((observableValue, oldValue, newValue) -> update());
         gridPane.heightProperty().addListener((observableValue, oldValue, newValue) -> update());
     }
 
     public void update() {
         if (adaptOnResizeOverflow) {
+            int columns = gridMapper.getMaxColumns(), rows = gridMapper.getMaxRows();
             switch (getFormatStyle()) {
                 case HORIZONTAL -> {
-                    gridMapper.setMaxColumns(getColumnsByWidth());
-                    gridMapper.setMaxRows();
+                    columns = getColumnsByWidth();
+                    rows = Integer.MAX_VALUE;
                 }
                 case VERTICAL -> {
-                    gridMapper.setMaxColumns();
-                    gridMapper.setMaxRows(getRowsByHeight());
+                    columns = Integer.MAX_VALUE;
+                    rows = getRowsByHeight();
                 }
             }
-            Collection<Node> nodes = new ArrayList<>(gridPane.getChildren());
-            gridPane.getChildren().clear();
-            gridMapper.map(nodes);
+            if (columns != gridMapper.getMaxColumns() || rows != gridMapper.getMaxRows()) {
+                gridMapper.setMaxColumns(columns);
+                gridMapper.setMaxRows(rows);
+                gridMapper.mapChildren();
+            }
         }
     }
 
-    public void setFormatStyle(@NotNull UIFormatStyle uiFormatStyle) {
+    public void setFormatStyle(@NotNull UIFormatStyle uiFormatStyle, int base) {
         gridMapper.setFormatStyle(uiFormatStyle);
+        this.base = base;
     }
 
     @NotNull
@@ -56,12 +64,20 @@ public class CollectionGridAggregator implements PaneAggregator {
         return gridMapper.getFormatStyle();
     }
 
+    public void setBase(int base) {
+        this.base = base;
+    }
+
+    public int getBase() {
+        return base;
+    }
+
     /**
      *
      * @return The occupied width of all the nodes.
      */
     private double getBaseOccupiedWidth() {
-        return getOccupiedWidth(baseColumns);
+        return getOccupiedWidth(base);
     }
 
     /**
@@ -75,7 +91,7 @@ public class CollectionGridAggregator implements PaneAggregator {
     }
 
     private int getColumnsByWidth() {
-        return Math.max(getColumnsByWidth(gridPane.getWidth()), baseColumns + 1);
+        return Math.max(getColumnsByWidth(gridPane.getWidth()), base);
     }
 
     private int getColumnsByWidth(double width) {
@@ -88,7 +104,7 @@ public class CollectionGridAggregator implements PaneAggregator {
      * @return The occupied height of all the nodes.
      */
     private double getBaseOccupiedHeight() {
-        return getOccupiedHeight(baseRows);
+        return getOccupiedHeight(base);
     }
 
     /**
@@ -102,7 +118,7 @@ public class CollectionGridAggregator implements PaneAggregator {
     }
 
     private int getRowsByHeight() {
-        return Math.max(getRowsByHeight(gridPane.getHeight()), baseRows + 1);
+        return Math.max(getRowsByHeight(gridPane.getHeight()), base);
     }
 
     private int getRowsByHeight(double height) {
@@ -134,22 +150,6 @@ public class CollectionGridAggregator implements PaneAggregator {
         this.adaptOnResizeOverflow = adaptOnResizeOverflow;
     }
 
-    public int getBaseColumns() {
-        return baseColumns;
-    }
-
-    public void setBaseColumns(int baseColumns) {
-        this.baseColumns = baseColumns;
-    }
-
-    public int getBaseRows() {
-        return baseRows;
-    }
-
-    public void setBaseRows(int baseRows) {
-        this.baseRows = baseRows;
-    }
-
     @Override
     public @NotNull GridPane getPane() {
         return gridPane;
@@ -164,4 +164,9 @@ public class CollectionGridAggregator implements PaneAggregator {
     public GridMapper getGridMapper() {
         return gridMapper;
     }
+
+    public void addNode(@NotNull Node node) {
+        gridMapper.singleMapWith(node);
+    }
+
 }
