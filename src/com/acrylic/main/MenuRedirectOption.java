@@ -75,8 +75,6 @@ public abstract class MenuRedirectOption implements FXSearchable {
     }
 
     public void init(int width, int height, int r, int g, int b, float alpha) {
-        button.setPrefSize(width, height);
-        FXUtils.setMinMaxSizeAsPref(button);
         button.setTextFill(Color.WHITE);
         button.setGraphic(getTextFlow());
         originalColor = Color.rgb(r, g, b, alpha);

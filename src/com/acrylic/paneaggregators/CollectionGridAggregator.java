@@ -1,9 +1,11 @@
 package com.acrylic.paneaggregators;
 
 import com.acrylic.enums.UIFormatStyle;
+import com.acrylic.utils.FXUtils;
 import com.acrylic.utils.GridMapper;
 import javafx.scene.Node;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Region;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
@@ -132,6 +134,7 @@ public class CollectionGridAggregator implements PaneAggregator {
 
     public void setSizeX(int sizeX) {
         this.sizeX = sizeX;
+        adoptSizeToAllNodes();
     }
 
     public int getSizeY() {
@@ -140,6 +143,7 @@ public class CollectionGridAggregator implements PaneAggregator {
 
     public void setSizeY(int sizeY) {
         this.sizeY = sizeY;
+        adoptSizeToAllNodes();
     }
 
     public boolean isAdaptOnResizeOverflow() {
@@ -148,6 +152,16 @@ public class CollectionGridAggregator implements PaneAggregator {
 
     public void setAdaptOnResizeOverflow(boolean adaptOnResizeOverflow) {
         this.adaptOnResizeOverflow = adaptOnResizeOverflow;
+    }
+
+    public void setVgap(double vGap) {
+        gridPane.setVgap(vGap);
+        update();
+    }
+
+    public void setHgap(double hGap) {
+        gridPane.setHgap(hGap);
+        update();
     }
 
     @Override
@@ -165,7 +179,21 @@ public class CollectionGridAggregator implements PaneAggregator {
         return gridMapper;
     }
 
+    public void adoptSizeToNode(@NotNull Node node) {
+        if (node instanceof Region) {
+            Region region = (Region) node;
+            region.setPrefSize(getSizeX(), getSizeY());
+            FXUtils.setMinMaxSizeAsPref(region);
+        }
+    }
+
+    public void adoptSizeToAllNodes() {
+        for (Node child : gridPane.getChildren())
+            adoptSizeToNode(child);
+    }
+
     public void addNode(@NotNull Node node) {
+        adoptSizeToNode(node);
         gridMapper.singleMapWith(node);
     }
 
