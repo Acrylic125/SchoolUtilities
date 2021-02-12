@@ -23,6 +23,7 @@ public class Main extends Application {
                     .addStyleSheet(getClass(), "resources/Theme.css")
                     .build()
                 )
+                .setIconified(true)
                 .setF11FullScreen(true)
                 .setTitle("School Utilities")
                 .getStage()

@@ -2,6 +2,7 @@ package com.acrylic.utils;
 
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
@@ -54,6 +55,24 @@ public class StageBuilder {
     public StageBuilder setStageStyle(@NotNull StageStyle stageStyle) {
         stage.initStyle(stageStyle);
         return this;
+    }
+
+    public StageBuilder setIconified(boolean b) {
+        stage.setIconified(b);
+        return this;
+    }
+
+    public StageBuilder addIcon(@NotNull Image image) {
+        stage.getIcons().add(image);
+        return this;
+    }
+
+    public StageBuilder addIcon(@NotNull String imagePath) {
+        return addIcon(new Image(imagePath));
+    }
+
+    public StageBuilder addIcon(@NotNull Class<?> clazz, @NotNull String imagePath) {
+        return addIcon(clazz.getResource(imagePath).toString());
     }
 
     @NotNull

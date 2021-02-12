@@ -63,11 +63,4 @@ public final class FXUtils {
         return null;
     }
 
-    public static void setStageWithDefaultSettings(@NotNull Stage stage) {
-        stage.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
-            if (event.getCode().equals(KeyCode.F11))
-                stage.setFullScreen(!stage.isFullScreen());
-        });
-    }
-
 }
