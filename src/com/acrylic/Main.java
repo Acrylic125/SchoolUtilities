@@ -1,23 +1,32 @@
 package com.acrylic;
 
+import com.acrylic.utils.FXUtils;
+import com.acrylic.utils.SceneBuilder;
+import com.acrylic.utils.StageBuilder;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import org.ahocorasick.trie.Trie;
+import javafx.stage.StageStyle;
 
 public class Main extends Application {
 
+    public static double DEFAULT_WIDTH = 700, DEFAULT_HEIGHT = 430;
+
     @Override
-    public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("main/maincontroller.fxml"));
-        primaryStage.setTitle("School Utilities");
-        var scene = new Scene(root, 700, 430);
-        scene.getStylesheets().add(getClass().getResource("resources/Theme.css").toString());
-        primaryStage.setScene(scene);
-        primaryStage.show();
+    public void start(Stage primaryStage) throws Exception {
+        new StageBuilder(primaryStage)
+                .setScene(
+                    new SceneBuilder(getClass(), "main/maincontroller.fxml")
+                    .setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT)
+                    .addStyleSheet(getClass(), "resources/Theme.css")
+                    .build()
+                )
+                .setF11FullScreen(true)
+                .setTitle("School Utilities")
+                .getStage()
+                .show();
     }
 
 

@@ -1,9 +1,12 @@
 package com.acrylic.utils;
 
 import javafx.scene.Node;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
+import javafx.stage.Stage;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -58,6 +61,13 @@ public final class FXUtils {
             if (GridPane.getColumnIndex(child) == xIndex && GridPane.getRowIndex(child) == yIndex)
                 return child;
         return null;
+    }
+
+    public static void setStageWithDefaultSettings(@NotNull Stage stage) {
+        stage.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
+            if (event.getCode().equals(KeyCode.F11))
+                stage.setFullScreen(!stage.isFullScreen());
+        });
     }
 
 }

@@ -1,7 +1,7 @@
 package com.acrylic.main;
 
+import com.acrylic.cite.CiteOption;
 import com.acrylic.paneaggregators.CollectionGridAggregator;
-import com.acrylic.utils.FXUtils;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;

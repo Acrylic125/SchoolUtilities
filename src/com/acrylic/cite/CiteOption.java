@@ -1,6 +1,6 @@
-package com.acrylic.main;
+package com.acrylic.cite;
 
-import javafx.scene.control.Button;
+import com.acrylic.main.MenuRedirectOption;
 import javafx.scene.text.Text;
 import org.jetbrains.annotations.NotNull;
 
