@@ -2,6 +2,7 @@ package com.acrylic.sections;
 
 import com.acrylic.Main;
 import com.acrylic.utils.SceneBuilder;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -12,6 +13,7 @@ public abstract class AbstractSection {
 
     public AbstractSection(@NotNull SceneBuilder sceneBuilder, double width, double height) {
         this.scene = sceneBuilder.setSize(width, height).build();
+        initialize();
     }
 
     public AbstractSection(@NotNull SceneBuilder sceneBuilder, @NotNull Scene adoptSceneSize) {
@@ -24,10 +26,16 @@ public abstract class AbstractSection {
 
     public AbstractSection(@NotNull Scene scene) {
         this.scene = scene;
+        initialize();
     }
 
     public void switchToScene() {
         Main.getProgram().switchScene(this);
+    }
+
+    @NotNull
+    public Parent getParent() {
+        return scene.getRoot();
     }
 
     @NotNull
@@ -39,5 +47,7 @@ public abstract class AbstractSection {
     public AbstractSection getParentSection() {
         return Main.getProgram().getDefaultSection();
     }
+
+    public abstract void initialize();
 
 }

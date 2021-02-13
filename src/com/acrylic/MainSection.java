@@ -2,8 +2,6 @@ package com.acrylic;
 
 import com.acrylic.sections.AbstractSection;
 import com.acrylic.utils.SceneBuilder;
-import javafx.scene.Scene;
-import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 
@@ -21,5 +19,8 @@ public class MainSection extends AbstractSection {
                 width, height);
     }
 
+    @Override
+    public void initialize() {
 
+    }
 }
