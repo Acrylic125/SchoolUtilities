@@ -8,7 +8,8 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 
-public class CiteOption extends MenuRedirectOption {
+public class CiteOption
+        extends MenuRedirectOption {
 
     private final Text[] texts;
 
@@ -21,7 +22,7 @@ public class CiteOption extends MenuRedirectOption {
     @Override
     public void handleMouseClicked(@NotNull MouseEvent event) {
         try {
-            CitePage citePage = new CitePage(Main.getProgram().getCurrentScene());
+            new CitePage(Main.getProgram().getCurrentSection().getScene()).switchToScene();
         } catch (IOException ex) {
             ex.printStackTrace();
         }

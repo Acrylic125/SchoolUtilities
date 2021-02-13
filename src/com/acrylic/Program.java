@@ -1,5 +1,6 @@
 package com.acrylic;
 
+import com.acrylic.sections.AbstractSection;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.jetbrains.annotations.NotNull;
@@ -7,12 +8,22 @@ import org.jetbrains.annotations.NotNull;
 public interface Program {
 
     @NotNull
-    Scene getDefaultScene();
+    AbstractSection getDefaultSection();
 
     @NotNull
-    Scene getCurrentScene();
+    AbstractSection getCurrentSection();
 
-    void switchScene(@NotNull Scene scene);
+    void switchScene(@NotNull AbstractSection section);
+
+    default void switchToDefaultScene() {
+        switchScene(getDefaultSection());
+    }
+
+    default void switchToBack() {
+        AbstractSection section = getDefaultSection().getParentSection();
+        if (section != null)
+            switchScene(section);
+    }
 
     @NotNull
     Stage getPrimaryStage();

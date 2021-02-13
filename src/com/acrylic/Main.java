@@ -1,5 +1,6 @@
 package com.acrylic;
 
+import com.acrylic.sections.AbstractSection;
 import com.acrylic.utils.SceneBuilder;
 import com.acrylic.utils.StageBuilder;
 import javafx.application.Application;
@@ -7,29 +8,28 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.jetbrains.annotations.NotNull;
 
-public class Main extends Application implements Program {
+public class Main
+        extends Application
+        implements Program {
 
     private static Program program;
     public static double DEFAULT_WIDTH = 700, DEFAULT_HEIGHT = 430;
-    private Scene defaultScene;
+    private AbstractSection defaultSection;
     private Stage primaryStage;
-    private Scene currentScene;
+    private AbstractSection currentSection;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
         program = this;
-        defaultScene = new SceneBuilder(getClass(), "main/maincontroller.fxml")
-                .setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT)
-                .addStyleSheet(getClass(), "resources/Theme.css")
-                .build();
-        primaryStage = new StageBuilder(primaryStage)
+        defaultSection = new MainSection();
+        this.primaryStage = new StageBuilder(primaryStage)
                 .setIconified(true)
+                .setScene(defaultSection.getScene())
                 .setF11FullScreen(true)
                 .setTitle("School Utilities")
                 .getStage();
         primaryStage.show();
-        this.primaryStage = primaryStage;
-        switchScene(defaultScene);
+        this.currentSection = defaultSection;
         //IGNORE
         //double x1 = 0, y1 = 0;
         //double x2 = 0, y2 = -6;
@@ -38,19 +38,19 @@ public class Main extends Application implements Program {
     }
 
     @Override
-    public @NotNull Scene getDefaultScene() {
-        return defaultScene;
+    public @NotNull AbstractSection getDefaultSection() {
+        return defaultSection;
     }
 
     @Override
-    public @NotNull Scene getCurrentScene() {
-        return currentScene;
+    public @NotNull AbstractSection getCurrentSection() {
+        return currentSection;
     }
 
     @Override
-    public void switchScene(@NotNull Scene scene) {
-        this.currentScene = scene;
-        primaryStage.setScene(scene);
+    public void switchScene(@NotNull AbstractSection section) {
+        this.currentSection = section;
+        primaryStage.setScene(section.getScene());
     }
 
     @Override
