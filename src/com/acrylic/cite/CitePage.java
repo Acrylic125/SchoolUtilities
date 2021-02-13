@@ -10,10 +10,7 @@ import java.io.IOException;
 
 public final class CitePage extends AbstractSection {
 
-    public CitePage(@NotNull Scene currentScene) throws IOException {
-        super(new SceneBuilder(Main.class, "base/basecontroller.fxml")
-                .setSize(currentScene.getWidth(), currentScene.getHeight())
-                .build()
-        );
+    public CitePage() throws IOException {
+        super(new SceneBuilder(Main.class, "base/basecontroller.fxml"));
     }
 }

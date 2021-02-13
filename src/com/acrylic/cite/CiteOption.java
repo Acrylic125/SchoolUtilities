@@ -22,7 +22,7 @@ public class CiteOption
     @Override
     public void handleMouseClicked(@NotNull MouseEvent event) {
         try {
-            new CitePage(Main.getProgram().getCurrentSection().getScene()).switchToScene();
+            new CitePage().switchToScene();
         } catch (IOException ex) {
             ex.printStackTrace();
         }

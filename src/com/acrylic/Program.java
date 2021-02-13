@@ -7,7 +7,6 @@ import org.jetbrains.annotations.NotNull;
 
 public interface Program {
 
-    @NotNull
     AbstractSection getDefaultSection();
 
     @NotNull

@@ -11,8 +11,15 @@ public class MainSection extends AbstractSection {
 
     public MainSection() throws IOException {
         super(new SceneBuilder(Main.class, "main/maincontroller.fxml")
-                .setSize(Main.DEFAULT_WIDTH, Main.DEFAULT_HEIGHT)
                 .addStyleSheet(Main.class, "resources/Theme.css")
-                .build());
+        );
     }
+
+    public MainSection(double width, double height) throws IOException {
+        super(new SceneBuilder(Main.class, "main/maincontroller.fxml")
+                .addStyleSheet(Main.class, "resources/Theme.css"),
+                width, height);
+    }
+
+
 }
