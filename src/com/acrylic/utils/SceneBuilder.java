@@ -1,5 +1,6 @@
 package com.acrylic.utils;
 
+import com.acrylic.Main;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Camera;
 import javafx.scene.Cursor;
@@ -16,7 +17,7 @@ import java.util.List;
 
 public final class SceneBuilder {
 
-    private double width = 300, height = 185;
+    private double width = Main.DEFAULT_WIDTH, height = Main.DEFAULT_HEIGHT;
     private Parent parent;
     private Paint paint;
     private Camera camera;

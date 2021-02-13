@@ -7,8 +7,10 @@ import com.acrylic.utils.CSSBuilder;
 import com.acrylic.utils.FXUtils;
 import javafx.animation.FadeTransition;
 import javafx.animation.ScaleTransition;
+import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -87,7 +89,10 @@ public abstract class MenuRedirectOption implements FXSearchable {
                 .build()
         );
         initAnimation();
+        button.setOnMouseClicked(this::handleMouseClicked);
     }
+
+    public abstract void handleMouseClicked(@NotNull MouseEvent event);
 
     private void initAnimation() {
         FadeTransition fadeIn = new FadeTransition(Duration.millis(300));

@@ -36,7 +36,9 @@ public class MainController {
         main.setContent(gridPane);
         main.setFitToHeight(true);
         main.setFitToWidth(true);
+        //Scroll Speed
         setScrollingSpeed(0.2f);
+        //Search Bar
         searcher.initSearchBar();
     }
 
