@@ -4,6 +4,8 @@ import com.acrylic.sections.AbstractSection;
 import com.acrylic.utils.WindowExpander;
 import com.acrylic.utils.StageBuilder;
 import javafx.application.Application;
+import javafx.scene.Node;
+import javafx.scene.control.ToolBar;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import org.jetbrains.annotations.NotNull;
@@ -32,7 +34,14 @@ public class Main
                 .setTitle("School Utilities")
                 .getStage();
         primaryStage.show();
-        new WindowExpander(primaryStage);
+        WindowExpander windowExpander = new WindowExpander(primaryStage, WindowExpander.Setting.THIS_AND_FIRST_CHILD);
+        for (Node node : primaryStage.getScene().getRoot().getChildrenUnmodifiable()) {
+            if (node.getClass().equals(ToolBar.class)) {
+                System.out.println("T");
+                windowExpander.relocateIfContactWithNodes(node);
+            }
+        }
+        System.out.println(primaryStage.getScene().getRoot().getChildrenUnmodifiable().size());
     }
 
     @Override

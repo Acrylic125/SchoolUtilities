@@ -2,6 +2,7 @@ package com.acrylic.sections;
 
 import com.acrylic.Main;
 import com.acrylic.utils.SceneBuilder;
+import com.acrylic.utils.WindowExpander;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import org.jetbrains.annotations.NotNull;
