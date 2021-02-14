@@ -1,22 +1,63 @@
 package com.acrylic.enums;
 
+import javafx.scene.Cursor;
+
 public enum UIDirection {
 
-    NORTH(0f, -1f),
-    EAST(1f, 0),
-    SOUTH(0f, 1f),
-    WEST(-1f, 0),
-    NORTH_EAST(NORTH, EAST),
-    SOUTH_EAST(SOUTH, EAST),
-    NORTH_WEST(NORTH, WEST),
-    SOUTH_WEST(SOUTH, WEST);
+    NORTH(0f, -1f) {
+        @Override
+        public Cursor getDirectionCursor() {
+            return Cursor.N_RESIZE;
+        }
+    },
+    EAST(1f, 0) {
+        @Override
+        public Cursor getDirectionCursor() {
+            return Cursor.E_RESIZE;
+        }
+    },
+    SOUTH(0f, 1f) {
+        @Override
+        public Cursor getDirectionCursor() {
+            return Cursor.S_RESIZE;
+        }
+    },
+    WEST(-1f, 0) {
+        @Override
+        public Cursor getDirectionCursor() {
+            return Cursor.W_RESIZE;
+        }
+    },
+    NORTH_EAST(NORTH, EAST) {
+        @Override
+        public Cursor getDirectionCursor() {
+            return Cursor.NE_RESIZE;
+        }
+    },
+    SOUTH_EAST(SOUTH, EAST) {
+        @Override
+        public Cursor getDirectionCursor() {
+            return Cursor.SE_RESIZE;
+        }
+    },
+    NORTH_WEST(NORTH, WEST) {
+        @Override
+        public Cursor getDirectionCursor() {
+            return Cursor.NW_RESIZE;
+        }
+    },
+    SOUTH_WEST(SOUTH, WEST) {
+        @Override
+        public Cursor getDirectionCursor() {
+            return Cursor.SW_RESIZE;
+        }
+    };
 
     private final float x, y;
 
     UIDirection(float x, float y) {
         this.x = x;
         this.y = y;
-        System.out.println(x + " " + y);
     }
 
     UIDirection(UIDirection d1, UIDirection d2) {
@@ -30,6 +71,8 @@ public enum UIDirection {
     public float getY() {
         return y;
     }
+
+    public abstract Cursor getDirectionCursor();
 
     private static float nonZero(float a, float b) {
         return (a == 0) ? b : a;

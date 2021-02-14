@@ -88,6 +88,7 @@ public class WindowExpander {
     private final Scene scene;
     private final WindowExpanderActions actions;
     private double cursorOffsetX = 0, cursorOffsetY = 0;
+    private UIDirection expandDirection;
 
     public WindowExpander(@NotNull Stage stage, @NotNull Setting setting) {
         this.scene = stage.getScene();
@@ -170,6 +171,28 @@ public class WindowExpander {
         return relocationPredicate != null && relocationPredicate.test(event);
     }
 
+    private boolean doExpansionCheck(MouseEvent event) {
+        Bounds bounds = getSceneBounds();
+        double mouseX = event.getScreenX(), mouseY = event.getScreenY();
+        expandDirection = getDirectionBy(mouseX, mouseY, bounds, errorBound);
+        if (expandDirection == null)
+            return false;
+        double d = MathUtils.squared(errorBound * 3);
+        double x1 = bounds.getMinX(), y1 = bounds.getMinY(),
+                x2 = bounds.getMaxX(), y2 = bounds.getMaxY();
+        if (MathUtils.distanceSquared(mouseX, mouseY, x1, y1) <= d) {
+            expandDirection = UIDirection.NORTH_WEST;
+        } else if (MathUtils.distanceSquared(mouseX, mouseY, x1, y2) <= d) {
+            expandDirection = UIDirection.SOUTH_WEST;
+        } else if (MathUtils.distanceSquared(mouseX, mouseY, x2, y1) <= d) {
+            expandDirection = UIDirection.NORTH_EAST;
+        } else if (MathUtils.distanceSquared(mouseX, mouseY, x2, y2) <= d) {
+            expandDirection = UIDirection.SOUTH_EAST;
+        }
+        scene.setCursor(expandDirection.getDirectionCursor());
+        return true;
+    }
+
     private void onMousePressed(MouseEvent event) {
         Bounds bounds = getSceneBounds();
         cursorOffsetX = event.getScreenX() - bounds.getMinX();
@@ -192,38 +215,10 @@ public class WindowExpander {
         }
     }
 
-    private void modifyExpandableCursor(MouseEvent event, @NotNull UIDirection borderUIDirection) {
-        Bounds bounds = getSceneBounds();
-        double mouseX = event.getScreenX(), mouseY = event.getScreenY();
-        double d = MathUtils.squared(errorBound * 3);
-        double x1 = bounds.getMinX(), y1 = bounds.getMinY(),
-                x2 = bounds.getMaxX(), y2 = bounds.getMaxY();
-        Cursor cursor = Cursor.DEFAULT;
-        if (MathUtils.distanceSquared(mouseX, mouseY, x1, y1) <= d) {
-            cursor = Cursor.NW_RESIZE;
-        } else if (MathUtils.distanceSquared(mouseX, mouseY, x1, y2) <= d) {
-            cursor = Cursor.SW_RESIZE;
-        } else if (MathUtils.distanceSquared(mouseX, mouseY, x2, y1) <= d) {
-            cursor = Cursor.NE_RESIZE;
-        } else if (MathUtils.distanceSquared(mouseX, mouseY, x2, y2) <= d) {
-            cursor = Cursor.SE_RESIZE;
-        } else {
-            switch (borderUIDirection) {
-                case NORTH -> cursor = Cursor.N_RESIZE;
-                case EAST -> cursor = Cursor.E_RESIZE;
-                case SOUTH -> cursor = Cursor.S_RESIZE;
-                case WEST -> cursor = Cursor.W_RESIZE;
-            }
-        }
-        scene.setCursor(cursor);
-    }
-
     private void onMouseMove(MouseEvent event) {
         if (!isDragging) {
-            UIDirection borderUIDirection = getDirectionBy(event.getScreenX(), event.getScreenY(), getSceneBounds(), errorBound);
-            if (borderUIDirection != null) {
+            if (doExpansionCheck(event)) {
                 reference = Reference.EXPAND;
-                modifyExpandableCursor(event, borderUIDirection);
             } else {
                 if (reference.equals(Reference.EXPAND))
                     scene.setCursor(Cursor.DEFAULT);
