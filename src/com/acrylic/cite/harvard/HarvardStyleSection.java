@@ -1,5 +1,6 @@
-package com.acrylic.cite;
+package com.acrylic.cite.harvard;
 
+import com.acrylic.cite.CiteStyleSection;
 import javafx.scene.Scene;
 import org.jetbrains.annotations.NotNull;
 

@@ -1,5 +1,6 @@
 package com.acrylic.main;
 
+import com.acrylic.fxobjects.RedirectOption;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import org.jetbrains.annotations.NotNull;
@@ -10,7 +11,7 @@ public class GPACalculatorOption extends MenuRedirectOption {
 
     public GPACalculatorOption() {
         super(new String[] { "gpa", "calculator", "grade", "point", "average" });
-        texts = getDefaultFormatTexts("GPA Calculator", "Calculate your gpa either cumulative or for this term.", "", "Generate reports for this semester or view your progression throughout your school life.");
+        texts = RedirectOption.getDefaultFormatTexts("GPA Calculator", "Calculate your gpa either cumulative or for this term.", "", "Generate reports for this semester or view your progression throughout your school life.");
         init(173, 47, 169, 0.5f);
     }
 

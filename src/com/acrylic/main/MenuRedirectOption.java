@@ -1,18 +1,15 @@
 package com.acrylic.main;
 
+import com.acrylic.enums.Alignment;
+import com.acrylic.fxobjects.RedirectOption;
 import com.acrylic.searcher.FXSearchable;
 import com.acrylic.searcher.Searchable;
-import com.acrylic.enums.Alignment;
 import com.acrylic.utils.CSSBuilder;
-import com.acrylic.utils.FXUtils;
 import javafx.animation.FadeTransition;
-import javafx.animation.ScaleTransition;
-import javafx.event.EventHandler;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
@@ -20,12 +17,12 @@ import javafx.util.Duration;
 import org.ahocorasick.trie.Trie;
 import org.jetbrains.annotations.NotNull;
 
-public abstract class MenuRedirectOption implements FXSearchable {
+public abstract class MenuRedirectOption
+        implements FXSearchable, RedirectOption {
 
     private final Trie ids;
     private final String[] idArray;
     private final Button button;
-    private Color originalColor;
 
     public MenuRedirectOption(@NotNull String[] ids, @NotNull Button button) {
         this.ids = Searchable.convertToIDTrie(ids);
@@ -35,24 +32,6 @@ public abstract class MenuRedirectOption implements FXSearchable {
 
     public MenuRedirectOption(@NotNull String[] ids) {
         this(ids, new Button());
-    }
-
-    public void disappear() {
-        ScaleTransition start = new ScaleTransition(Duration.millis(1000));
-        start.setNode(button);
-        start.setToX(0);
-        start.setToY(0);
-        start.playFromStart();
-    }
-
-    public void appear() {
-        ScaleTransition start = new ScaleTransition(Duration.millis(1000));
-        start.setNode(button);
-        start.setFromX(0);
-        start.setFromY(0);
-        start.setToX(1);
-        start.setToY(1);
-        start.playFromStart();
     }
 
     @NotNull
@@ -79,9 +58,8 @@ public abstract class MenuRedirectOption implements FXSearchable {
     public void init(int r, int g, int b, float alpha) {
         button.setTextFill(Color.WHITE);
         button.setGraphic(getTextFlow());
-        originalColor = Color.rgb(r, g, b, alpha);
         button.setStyle(CSSBuilder.builder()
-                .addBackgroundColor(originalColor)
+                .addBackgroundColor(Color.rgb(r, g, b, alpha))
                 .addFontWeight(FontWeight.BOLD)
                 .addBackgroundRadius(25)
                 .addAlignment(Alignment.TOP_LEFT)
@@ -92,7 +70,10 @@ public abstract class MenuRedirectOption implements FXSearchable {
         button.setOnMouseClicked(this::handleMouseClicked);
     }
 
-    public abstract void handleMouseClicked(@NotNull MouseEvent event);
+    @Override
+    public @NotNull Parent getRoot() {
+        return button;
+    }
 
     private void initAnimation() {
         FadeTransition fadeIn = new FadeTransition(Duration.millis(300));
@@ -105,7 +86,6 @@ public abstract class MenuRedirectOption implements FXSearchable {
         fadeOut.setFromValue(1f);
         fadeOut.setToValue(0.7f);
         button.setOnMouseExited(e -> fadeOut.playFromStart());
-        appear();
         fadeOut.playFromStart();
     }
 
@@ -118,21 +98,5 @@ public abstract class MenuRedirectOption implements FXSearchable {
     @NotNull
     public abstract Text[] getTexts();
 
-    public static Text[] getDefaultFormatTexts(@NotNull String title, @NotNull String... texts) {
-        Text titleText = new Text(title + "\n");
-        titleText.setFill(Color.WHITE);
-        titleText.setFont(Font.font(null, FontWeight.BOLD, 15));
-        int l = texts.length;
-        Text[] textsObj = new Text[l + 1];
-        textsObj[0] = titleText;
-        for (int i = 1; i <= l; i++) {
-            Text strText = new Text((i == l) ? texts[i - 1] : texts[i - 1] + "\n");
-            strText.setFill(Color.WHITE);
-            strText.setFont(Font.font(null, FontWeight.THIN, 10));
-
-            textsObj[i] = strText;
-        }
-        return textsObj;
-    }
 
 }

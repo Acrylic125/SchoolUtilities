@@ -25,7 +25,6 @@ public class Main
         program = this;
         this.currentSection = new MainSection(DEFAULT_WIDTH, DEFAULT_HEIGHT);
         this.primaryStage = new StageBuilder(primaryStage)
-                .setIconified(true)
                 .setScene(this.currentSection.getScene())
                 .setF11FullScreen(true)
                 .setTitle("School Utilities")
