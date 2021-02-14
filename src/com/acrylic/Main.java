@@ -1,7 +1,7 @@
 package com.acrylic;
 
 import com.acrylic.sections.AbstractSection;
-import com.acrylic.utils.WindowExpander;
+import com.acrylic.windowexpander.WindowExpander;
 import com.acrylic.utils.StageBuilder;
 import javafx.application.Application;
 import javafx.scene.Node;
