@@ -1,6 +1,7 @@
 package com.acrylic;
 
 import com.acrylic.sections.AbstractSection;
+import com.acrylic.windowexpander.StageWindowExpander;
 import com.acrylic.windowexpander.WindowExpander;
 import com.acrylic.utils.StageBuilder;
 import javafx.application.Application;
@@ -34,7 +35,7 @@ public class Main
                 .setTitle("School Utilities")
                 .getStage();
         primaryStage.show();
-        WindowExpander windowExpander = new WindowExpander(primaryStage, WindowExpander.Setting.THIS_AND_FIRST_CHILD);
+        WindowExpander windowExpander = new StageWindowExpander(primaryStage, WindowExpander.Setting.THIS_AND_FIRST_CHILD);
         for (Node node : primaryStage.getScene().getRoot().getChildrenUnmodifiable()) {
             if (node.getClass().equals(ToolBar.class)) {
                 System.out.println("T");

@@ -22,7 +22,7 @@ import java.util.function.Predicate;
  * This enables scenes to be movable and expandable based
  * on it's current {@link Reference}.
  */
-public class WindowExpander {
+public abstract class WindowExpander {
 
     public static final int CHILD_THRESHOLD = 10;
     public static final int RELATIVE_VALUE = 4;
@@ -85,40 +85,10 @@ public class WindowExpander {
      */
     private int errorBound = 10;
     private boolean isDragging = false;
-    private final Scene scene;
-    private final WindowExpanderActions actions;
-    private double cursorOffsetX = 0, cursorOffsetY = 0;
-    private double screenX = 0, screenY = 0;
-    private double initWidth = 0, initHeight = 0;
-    private UIDirection expandDirection;
-    private final Stage stage;
-
-    public WindowExpander(@NotNull Stage stage, @NotNull Setting setting) {
-        this.scene = stage.getScene();
-        this.stage = stage;
-        includeListener(this.scene, setting);
-        actions = new WindowExpanderActions() {
-            @Override
-            public void expandTo(@NotNull MouseEvent event, double x, double y) {
-                x = expandDirection.getX() * (x - screenX);
-                y = expandDirection.getY() * (y - screenY);
-                //System.out.println(cursorOffsetX + " " + cursorOffsetY);
-                stage.setWidth(x + initWidth);
-                if (expandDirection.getX() < 0)
-                    stage.setX(event.getScreenX() - cursorOffsetX);
-                stage.setHeight(y + initHeight);
-                if (expandDirection.getY() < 0)
-                    stage.setY(event.getScreenY() - cursorOffsetY);
-                //System.out.println((y + stage.getHeight()) + " " + (x + stage.getWidth()));
-            }
-
-            @Override
-            public void moveTo(@NotNull MouseEvent event, double x, double y) {
-                stage.setX(x);
-                stage.setY(y);
-            }
-        };
-    }
+    protected double cursorOffsetX = 0, cursorOffsetY = 0;
+    protected double screenX = 0, screenY = 0;
+    protected double initWidth = 0, initHeight = 0;
+    protected UIDirection expandDirection;
 
     private void includeListenerRecursively(int acc, int limit, @NotNull Node node, boolean includeFIrst) {
         acc++;
@@ -158,10 +128,7 @@ public class WindowExpander {
         includeListener(scene.getRoot(), setting, 1);
     }
 
-    private Bounds getSceneBounds() {
-        Node node = scene.getRoot();
-        return node.localToScreen(node.getBoundsInLocal());
-    }
+    protected abstract Bounds getSceneBounds();
 
     private boolean isRelocationReference(MouseEvent event) {
         return relocationPredicate != null && relocationPredicate.test(event);
@@ -185,19 +152,25 @@ public class WindowExpander {
         } else if (MathUtils.distanceSquared(mouseX, mouseY, x2, y2) <= d) {
             expandDirection = UIDirection.SOUTH_EAST;
         }
-        scene.setCursor(expandDirection.getDirectionCursor());
+        setCursor(expandDirection.getDirectionCursor());
         return true;
     }
 
-    private void onMousePressed(MouseEvent event) {
+    protected abstract void setCursor(@NotNull Cursor cursor);
+
+    protected void onMousePressed(MouseEvent event) {
         Bounds bounds = getSceneBounds();
         cursorOffsetX = event.getScreenX() - bounds.getMinX();
         cursorOffsetY = event.getScreenY() - bounds.getMinY();
         screenX = event.getScreenX();
         screenY = event.getScreenY();
-        initWidth = stage.getWidth();
-        initHeight = stage.getHeight();
+        initWidth = getWidth();
+        initHeight = getHeight();
     }
+
+    public abstract double getWidth();
+
+    public abstract double getHeight();
 
     private void onMouseReleased(MouseEvent event) {
         isDragging = false;
@@ -209,15 +182,19 @@ public class WindowExpander {
         isDragging = true;
         onMouseMove(event);
         switch (reference) {
-            case RELOCATION -> actions.moveTo(event, event.getScreenX() - cursorOffsetX, event.getScreenY() - cursorOffsetY);
+            case RELOCATION -> moveTo(event, event.getScreenX() - cursorOffsetX, event.getScreenY() - cursorOffsetY);
             case EXPAND -> {
                 if (expandDirection != null) {
                     //System.out.println(event.getX() + " " + cursorOffsetX);
-                    actions.expandTo(event, event.getScreenX(), event.getScreenY());
+                    expandTo(event, event.getScreenX(), event.getScreenY());
                 }
             }
         }
     }
+
+    protected abstract void moveTo(MouseEvent event, double x, double y);
+
+    protected abstract void expandTo(MouseEvent event, double x, double y);
 
     private void onMouseMove(MouseEvent event) {
         if (!isDragging) {
@@ -225,7 +202,7 @@ public class WindowExpander {
                 reference = Reference.EXPAND;
             } else {
                 if (reference.equals(Reference.EXPAND))
-                    scene.setCursor(Cursor.DEFAULT);
+                    setCursor(Cursor.DEFAULT);
                 if (isRelocationReference(event)) {
                     reference = Reference.RELOCATION;
                 } else {
@@ -279,11 +256,6 @@ public class WindowExpander {
 
     public boolean isDragging() {
         return isDragging;
-    }
-
-    @NotNull
-    public Scene getScene() {
-        return scene;
     }
 
     @Nullable
