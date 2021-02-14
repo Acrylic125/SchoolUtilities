@@ -11,6 +11,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class MainController {
 
+    @FXML private ToolBar toolbar;
     @FXML private ImageView homeImage;
     @FXML private ImageView searchImage;
     @FXML private AnchorPane mainAnchorPane;
@@ -40,6 +41,7 @@ public class MainController {
         setScrollingSpeed(0.2f);
         //Search Bar
         searcher.initSearchBar();
+        toolbar.getItems().addAll(new Button("X"), new Button("-"));
     }
 
     public void addOptionWithGrid(@NotNull MenuRedirectOption option) {

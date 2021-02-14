@@ -1,9 +1,9 @@
 
 .root {
     -selection-color: #4b7ccf;
-    -primary-color: #000000;
-    -secondary-color: #333333;
-    -sidebar-color: #444444;
+    -primary-color: #202020;
+    -secondary-color: #101010;
+    -sidebar-color: #181818;
     -text-color: #ffffff;
     -focus-color: -selection-color;
     -fx-background-color: -secondary-color;
@@ -33,6 +33,7 @@
     -fx-text-fill: -text-color;
 }
 
+.tool-bar,
 .vbox,
 .context-menu,
 .menu-bar,

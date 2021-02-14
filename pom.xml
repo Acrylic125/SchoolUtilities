@@ -15,9 +15,9 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.quartz-scheduler</groupId>
-            <artifactId>quartz</artifactId>
-            <version>2.3.2</version>
+            <groupId>lk.vivoxalabs.customstage</groupId>
+            <artifactId>CustomStage</artifactId>
+            <version>1.3.2</version>
         </dependency>
         <dependency>
             <groupId>org.ahocorasick</groupId>
