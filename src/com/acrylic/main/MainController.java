@@ -11,7 +11,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class MainController {
 
-    @FXML private ToolBar toolbar;
+    @FXML private AnchorPane global;
     @FXML private ImageView homeImage;
     @FXML private ImageView searchImage;
     @FXML private AnchorPane mainAnchorPane;
@@ -20,6 +20,7 @@ public class MainController {
     @FXML private Button aboutButton;
     @FXML private ScrollPane main;
 
+    private MainToolBar mainToolBar;
     private final CollectionGridAggregator selectionGrid = new CollectionGridAggregator(new GridPane());
     private final MainSearcher searcher = new MainSearcher(this);
 
@@ -41,7 +42,8 @@ public class MainController {
         setScrollingSpeed(0.2f);
         //Search Bar
         searcher.initSearchBar();
-        toolbar.getItems().addAll(new Button("X"), new Button("-"));
+        mainToolBar = new MainToolBar();
+        global.getChildren().add(mainToolBar);
     }
 
     public void addOptionWithGrid(@NotNull MenuRedirectOption option) {

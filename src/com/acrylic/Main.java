@@ -1,5 +1,6 @@
 package com.acrylic;
 
+import com.acrylic.main.MainToolBar;
 import com.acrylic.sections.AbstractSection;
 import com.acrylic.windowexpander.StageWindowExpander;
 import com.acrylic.windowexpander.WindowExpander;
@@ -37,7 +38,7 @@ public class Main
         primaryStage.show();
         WindowExpander windowExpander = new StageWindowExpander(primaryStage, WindowExpander.Setting.THIS_AND_FIRST_CHILD);
         for (Node node : primaryStage.getScene().getRoot().getChildrenUnmodifiable()) {
-            if (node.getClass().equals(ToolBar.class)) {
+            if (node.getClass().equals(MainToolBar.class)) {
                 System.out.println("T");
                 windowExpander.relocateIfContactWithNodes(node);
             }

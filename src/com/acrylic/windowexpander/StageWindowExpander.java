@@ -1,5 +1,6 @@
 package com.acrylic.windowexpander;
 
+import com.acrylic.utils.MathUtils;
 import javafx.geometry.Bounds;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
@@ -7,6 +8,8 @@ import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import org.jetbrains.annotations.NotNull;
+
+import java.awt.*;
 
 public class StageWindowExpander extends WindowExpander {
 
@@ -51,15 +54,23 @@ public class StageWindowExpander extends WindowExpander {
 
     @Override
     protected void expandTo(MouseEvent event, double x, double y) {
-        x = expandDirection.getX() * (x - screenX);
-        y = expandDirection.getY() * (y - screenY);
-        //System.out.println(cursorOffsetX + " " + cursorOffsetY);
-        stage.setWidth(x + initWidth);
+        x = MathUtils.clamp(initWidth + (expandDirection.getX() * (x - screenX)), stage.getMinWidth(), stage.getMaxWidth());
+        y = MathUtils.clamp(initHeight + (expandDirection.getY() * (y - screenY)), stage.getMinHeight(), stage.getMaxHeight());
+        stage.setWidth(x);
         if (expandDirection.getX() < 0)
             stage.setX(event.getScreenX() - cursorOffsetX);
-        stage.setHeight(y + initHeight);
+        stage.setHeight(y);
         if (expandDirection.getY() < 0)
             stage.setY(event.getScreenY() - cursorOffsetY);
+    }
+
+    @Override
+    public void clipToMaxBounds() {
+        stage.setX(0);
+        stage.setY(0);
+        Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
+        stage.setWidth(dimension.getWidth());
+        stage.setHeight(dimension.getHeight());
     }
 
 }

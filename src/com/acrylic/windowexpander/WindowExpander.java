@@ -25,7 +25,7 @@ import java.util.function.Predicate;
 public abstract class WindowExpander {
 
     public static final int CHILD_THRESHOLD = 10;
-    public static final int RELATIVE_VALUE = 4;
+    public static final long DOUBLE_CLICK_IN_BETWEEN = 400;
 
     public enum Setting {
         /**
@@ -158,7 +158,13 @@ public abstract class WindowExpander {
 
     protected abstract void setCursor(@NotNull Cursor cursor);
 
+    private boolean shouldClipToBounds() {
+        return reference != Reference.NONE;
+    }
+
     protected void onMousePressed(MouseEvent event) {
+        if (event.getClickCount() == 2 && shouldClipToBounds())
+            clipToMaxBounds();
         Bounds bounds = getSceneBounds();
         cursorOffsetX = event.getScreenX() - bounds.getMinX();
         cursorOffsetY = event.getScreenY() - bounds.getMinY();
@@ -185,7 +191,6 @@ public abstract class WindowExpander {
             case RELOCATION -> moveTo(event, event.getScreenX() - cursorOffsetX, event.getScreenY() - cursorOffsetY);
             case EXPAND -> {
                 if (expandDirection != null) {
-                    //System.out.println(event.getX() + " " + cursorOffsetX);
                     expandTo(event, event.getScreenX(), event.getScreenY());
                 }
             }
@@ -257,6 +262,8 @@ public abstract class WindowExpander {
     public boolean isDragging() {
         return isDragging;
     }
+
+    public abstract void clipToMaxBounds();
 
     @Nullable
     private static UIDirection getDirectionBy(double x, double y, @NotNull Bounds bounds, double errorBound) {

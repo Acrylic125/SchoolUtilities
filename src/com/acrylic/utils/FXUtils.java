@@ -3,6 +3,7 @@ package com.acrylic.utils;
 import javafx.scene.Node;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
@@ -61,6 +62,21 @@ public final class FXUtils {
             if (GridPane.getColumnIndex(child) == xIndex && GridPane.getRowIndex(child) == yIndex)
                 return child;
         return null;
+    }
+
+    public static void setAnchorBindings(@NotNull Node node, double a) {
+        setAnchorBindings(node, a, a, a, a);
+    }
+
+    public static void setAnchorBindings(@NotNull Node node, double top, double right, double bottom, double left) {
+        if (top >= 0)
+            AnchorPane.setTopAnchor(node, top);
+        if (right >= 0)
+            AnchorPane.setRightAnchor(node, right);
+        if (bottom >= 0)
+           AnchorPane.setBottomAnchor(node, bottom);
+        if (left >= 0)
+          AnchorPane.setLeftAnchor(node, left);
     }
 
 }

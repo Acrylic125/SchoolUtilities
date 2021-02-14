@@ -95,4 +95,23 @@ public class MathUtils {
         return Math.sqrt(distance(x1, y1, x2, y2));
     }
 
+    /**
+     * Clamping.
+     */
+    public static double clamp(double v, double min, double max) {
+        return Math.min(max, Math.max(v, min));
+    }
+
+    public static float clamp(float v, float min, float max) {
+        return Math.min(max, Math.max(v, min));
+    }
+
+    public static long clamp(long v, long min, long max) {
+        return Math.min(max, Math.max(v, min));
+    }
+
+    public static int clamp(int v, int min, int max) {
+        return Math.min(max, Math.max(v, min));
+    }
+
 }
