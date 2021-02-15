@@ -20,7 +20,6 @@ public class MainController {
     @FXML private Button aboutButton;
     @FXML private ScrollPane main;
 
-    private MainToolBar mainToolBar;
     private final CollectionGridAggregator selectionGrid = new CollectionGridAggregator(new GridPane());
     private final MainSearcher searcher = new MainSearcher(this);
 
@@ -42,8 +41,6 @@ public class MainController {
         setScrollingSpeed(0.2f);
         //Search Bar
         searcher.initSearchBar();
-        mainToolBar = new MainToolBar(global.getWidth(), global.getHeight());
-        global.getChildren().add(mainToolBar);
     }
 
     public void addOptionWithGrid(@NotNull MenuRedirectOption option) {

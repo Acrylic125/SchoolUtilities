@@ -6,8 +6,12 @@ import com.acrylic.windowexpander.StageWindowExpander;
 import com.acrylic.windowexpander.WindowExpander;
 import com.acrylic.utils.StageBuilder;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.ToolBar;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import org.jetbrains.annotations.NotNull;
@@ -18,8 +22,7 @@ public class Main
         extends Application
         implements Program {
 
-    double xOffset = 0, yOffset = 0;
-
+    private MainToolBar mainToolBar;
     private static Program program;
     public static double DEFAULT_WIDTH = 700, DEFAULT_HEIGHT = 430;
     private Stage primaryStage;
@@ -36,14 +39,18 @@ public class Main
                 .setTitle("School Utilities")
                 .getStage();
         primaryStage.show();
+        mainToolBar = new MainToolBar(0, 0);
+        addToolBar();
+    }
+
+    private void addToolBar() {
         WindowExpander windowExpander = new StageWindowExpander(primaryStage, WindowExpander.Setting.THIS_AND_FIRST_CHILD);
-        for (Node node : primaryStage.getScene().getRoot().getChildrenUnmodifiable()) {
-            if (node.getClass().equals(MainToolBar.class)) {
-                System.out.println("T");
-                windowExpander.relocateIfContactWithNodes(node);
-            }
+        Parent root = primaryStage.getScene().getRoot();
+        if (root instanceof Pane) {
+            System.out.println("TTTTTT");
+            ((Pane) root).getChildren().add(mainToolBar);
+            windowExpander.relocateIfContactWithNodes(mainToolBar);
         }
-        System.out.println(primaryStage.getScene().getRoot().getChildrenUnmodifiable().size());
     }
 
     @Override
@@ -63,7 +70,13 @@ public class Main
     @Override
     public void switchScene(@NotNull AbstractSection section) {
         this.currentSection = section;
-        primaryStage.setScene(section.getScene());
+        Scene scene = currentSection.getScene();
+        Parent root = scene.getRoot();
+        if (root instanceof Pane)
+            ((Pane) root).getChildren().remove(mainToolBar);
+        primaryStage.setScene(scene);
+        addToolBar();
+        primaryStage.show();
     }
 
     @Override

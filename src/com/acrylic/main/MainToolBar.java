@@ -3,7 +3,6 @@ package com.acrylic.main;
 import com.acrylic.utils.FXUtils;
 import com.acrylic.windowexpander.StageWindowExpander;
 import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
@@ -68,8 +67,7 @@ public class MainToolBar extends AnchorPane {
             Window window = ((Node) event.getSource()).getScene().getWindow();
             double windowWidth = window.getWidth(), windowHeight = window.getHeight(),
                     x = window.getX(), y = window.getY();
-            if (dimension.getWidth() != windowWidth || dimension.getHeight() != windowHeight ||
-                x != 0 || y != 0) {
+            if (dimension.getWidth() != windowWidth || dimension.getHeight() != windowHeight || x != 0 || y != 0) {
                 beforeClipSizeX = windowWidth;
                 beforeClipSizeY = windowHeight;
                 beforeClipLocationX = x;
