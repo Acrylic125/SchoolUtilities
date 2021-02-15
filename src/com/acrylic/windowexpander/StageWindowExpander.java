@@ -9,6 +9,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import org.jetbrains.annotations.NotNull;
 
+import javax.swing.*;
 import java.awt.*;
 
 public class StageWindowExpander extends WindowExpander {
@@ -66,9 +67,13 @@ public class StageWindowExpander extends WindowExpander {
 
     @Override
     public void clipToMaxBounds() {
+        clipToMaxBounds(stage);
+    }
+
+    public static void clipToMaxBounds(@NotNull Stage stage) {
         stage.setX(0);
         stage.setY(0);
-        Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
+        Rectangle dimension = GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds();
         stage.setWidth(dimension.getWidth());
         stage.setHeight(dimension.getHeight());
     }

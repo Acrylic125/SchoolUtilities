@@ -33,6 +33,7 @@
     -fx-text-fill: -text-color;
 }
 
+.main-tool-bar,
 .tool-bar,
 .vbox,
 .context-menu,
@@ -84,6 +85,21 @@
     -fx-opacity: 0;
 }
 
+.close-button :hover {
+    -fx-background-color: rgba(183, 0, 0, 0.90) !important;
+    -fx-border-color: transparent !important;
+}
+
+.main-tool-bar {
+    -fx-padding: 0px;
+}
+
+.main-tool-bar .button {
+    -fx-background-color: rgba(0, 0, 0, 0.00);
+    -fx-text-fill: #ffffff;
+    -fx-border-radius: 5px;
+    -fx-font-size: 10px;
+}
 
 
 

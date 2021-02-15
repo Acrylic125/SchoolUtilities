@@ -83,7 +83,7 @@ public abstract class WindowExpander {
      * The error bound ensures less sensitive cursor
      * checks.
      */
-    private int errorBound = 10;
+    private int errorBound = 5;
     private boolean isDragging = false;
     protected double cursorOffsetX = 0, cursorOffsetY = 0;
     protected double screenX = 0, screenY = 0;

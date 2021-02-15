@@ -76,7 +76,7 @@ public final class FXUtils {
         if (bottom >= 0)
            AnchorPane.setBottomAnchor(node, bottom);
         if (left >= 0)
-          AnchorPane.setLeftAnchor(node, left);
+           AnchorPane.setLeftAnchor(node, left);
     }
 
 }

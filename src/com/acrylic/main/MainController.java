@@ -42,7 +42,7 @@ public class MainController {
         setScrollingSpeed(0.2f);
         //Search Bar
         searcher.initSearchBar();
-        mainToolBar = new MainToolBar();
+        mainToolBar = new MainToolBar(global.getWidth(), global.getHeight());
         global.getChildren().add(mainToolBar);
     }
 
