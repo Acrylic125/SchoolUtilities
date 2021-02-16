@@ -4,9 +4,12 @@ import com.acrylic.Main;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.AnchorPane;
 
 public class BaseController {
 
+    @FXML
+    private AnchorPane global;
     @FXML
     private ScrollPane main;
     @FXML

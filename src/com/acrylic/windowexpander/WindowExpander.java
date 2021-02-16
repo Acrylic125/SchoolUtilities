@@ -252,7 +252,7 @@ public abstract class WindowExpander {
             double x = event.getScreenX(), y = event.getScreenY();
             for (Node node : nodes) {
                 Bounds bounds = node.localToScreen(node.getBoundsInLocal());
-                if (MathUtils.isPointInRegion(x, y, bounds, errorBound))
+                if (bounds != null && MathUtils.isPointInRegion(x, y, bounds, errorBound))
                     return true;
             }
             return false;

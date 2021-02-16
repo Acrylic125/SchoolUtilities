@@ -16,6 +16,7 @@ public class MainToolBar extends AnchorPane {
     private static final double BUTTON_SIZE_X = 30, BUTTON_SIZE_Y = 20;
     private double beforeClipSizeX = 0, beforeClipSizeY = 0;
     private double beforeClipLocationX = 0, beforeClipLocationY = 0;
+    private Button closeButton, resizeButton;
 
     public MainToolBar(double baseWidth, double baseHeight) {
         init(baseWidth, baseHeight);
@@ -27,7 +28,9 @@ public class MainToolBar extends AnchorPane {
     }
 
     public void init(double baseWidth, double baseHeight) {
-        getChildren().addAll(getCloseButton(), getClipButton());
+        closeButton = getCloseButton();
+        resizeButton = getClipButton();
+        getChildren().addAll(closeButton, resizeButton);
         setPrefHeight(20);
         FXUtils.setMinMaxSizeAsPref(this);
         FXUtils.setAnchorBindings(this, 0d, 0d, -1d, 0d);
@@ -40,7 +43,7 @@ public class MainToolBar extends AnchorPane {
         beforeClipSizeY = baseHeight;
     }
 
-    private static void transformButton(@NotNull Button button, int elementFromRight) {
+    private void transformButton(@NotNull Button button, int elementFromRight) {
         button.setPrefWidth(BUTTON_SIZE_X);
         button.setPrefHeight(BUTTON_SIZE_Y);
         FXUtils.setMinMaxSizeAsPref(button);

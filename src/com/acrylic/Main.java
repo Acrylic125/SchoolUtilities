@@ -2,16 +2,11 @@ package com.acrylic;
 
 import com.acrylic.main.MainToolBar;
 import com.acrylic.sections.AbstractSection;
+import com.acrylic.utils.StageBuilder;
 import com.acrylic.windowexpander.StageWindowExpander;
 import com.acrylic.windowexpander.WindowExpander;
-import com.acrylic.utils.StageBuilder;
 import javafx.application.Application;
-import javafx.application.Platform;
-import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.ToolBar;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import org.jetbrains.annotations.NotNull;
@@ -27,10 +22,12 @@ public class Main
     public static double DEFAULT_WIDTH = 700, DEFAULT_HEIGHT = 430;
     private Stage primaryStage;
     private AbstractSection currentSection;
+    private volatile boolean reinitializeSize = false;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
         program = this;
+        this.mainToolBar = new MainToolBar(0, 0);
         this.currentSection = new MainSection(DEFAULT_WIDTH, DEFAULT_HEIGHT);
         this.primaryStage = new StageBuilder(primaryStage)
                 .setScene(this.currentSection.getScene())
@@ -38,19 +35,18 @@ public class Main
                 .setStageStyle(StageStyle.TRANSPARENT)
                 .setTitle("School Utilities")
                 .getStage();
+        primaryStage.setMinWidth(100);
+        primaryStage.setMinHeight(100);
+        primaryStage.setMaxWidth(StageWindowExpander.getWindowSize().getWidth());
+        primaryStage.setMaxHeight(StageWindowExpander.getWindowSize().getHeight());
         primaryStage.show();
-        mainToolBar = new MainToolBar(0, 0);
-        addToolBar();
+        decorate(this.currentSection.getScene().getRoot());
+        applyExpander();
     }
 
-    private void addToolBar() {
+    private void applyExpander() {
         WindowExpander windowExpander = new StageWindowExpander(primaryStage, WindowExpander.Setting.THIS_AND_FIRST_CHILD);
-        Parent root = primaryStage.getScene().getRoot();
-        if (root instanceof Pane) {
-            System.out.println("TTTTTT");
-            ((Pane) root).getChildren().add(mainToolBar);
-            windowExpander.relocateIfContactWithNodes(mainToolBar);
-        }
+        windowExpander.relocateIfContactWithNodes(mainToolBar);
     }
 
     @Override
@@ -67,21 +63,42 @@ public class Main
         return currentSection;
     }
 
+    private void reinitializeSize() {
+        if (reinitializeSize)
+            return;
+        reinitializeSize = true;
+        double width = primaryStage.getWidth();
+        primaryStage.setWidth(width - 1);
+        new Thread(() -> {
+            try {
+                reinitializeSize = false;
+                Thread.sleep(1);
+                primaryStage.setWidth(width);
+            } catch (InterruptedException ex) {
+                ex.printStackTrace();
+            }
+        }).start();
+    }
+
     @Override
     public void switchScene(@NotNull AbstractSection section) {
         this.currentSection = section;
         Scene scene = currentSection.getScene();
-        Parent root = scene.getRoot();
-        if (root instanceof Pane)
-            ((Pane) root).getChildren().remove(mainToolBar);
         primaryStage.setScene(scene);
-        addToolBar();
+        decorate(scene.getRoot());
+        applyExpander();
         primaryStage.show();
+        reinitializeSize();
     }
 
     @Override
     public @NotNull Stage getPrimaryStage() {
         return primaryStage;
+    }
+
+    @Override
+    public @NotNull MainToolBar getToolBar() {
+        return mainToolBar;
     }
 
     public static void main(String[] args) {

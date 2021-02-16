@@ -5,10 +5,10 @@
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.acrylic.base.BaseController">
+<AnchorPane fx:id="global" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.acrylic.base.BaseController">
    <children>
       <Button fx:id="backButton" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" prefHeight="22.0" prefWidth="43.0" text="Back" textAlignment="CENTER" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="34.0" />
-      <ScrollPane fx:id="main" layoutX="40.0" layoutY="62.0" prefHeight="355.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="70.0" />
+      <ScrollPane fx:id="main" layoutX="40.0" layoutY="62.0" prefHeight="355.0" prefWidth="600.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="70.0" />
    </children>
    <stylesheets>
       <URL value="@../resources/Theme.css" />

@@ -1,5 +1,6 @@
 package com.acrylic.main;
 
+import com.acrylic.Main;
 import com.acrylic.cite.CiteOption;
 import com.acrylic.paneaggregators.CollectionGridAggregator;
 import javafx.fxml.FXML;

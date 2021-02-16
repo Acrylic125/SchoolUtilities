@@ -73,9 +73,13 @@ public class StageWindowExpander extends WindowExpander {
     public static void clipToMaxBounds(@NotNull Stage stage) {
         stage.setX(0);
         stage.setY(0);
-        Rectangle dimension = GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds();
+        Rectangle dimension = getWindowSize();
         stage.setWidth(dimension.getWidth());
         stage.setHeight(dimension.getHeight());
+    }
+
+    public static Rectangle getWindowSize() {
+        return GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds();
     }
 
 }
