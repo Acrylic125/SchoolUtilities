@@ -94,11 +94,16 @@
     -fx-padding: 0px;
 }
 
-.main-tool-bar .button {
+.main-tool-bar-button {
+    -fx-text-alignment: center !important;
     -fx-background-color: rgba(0, 0, 0, 0.00);
     -fx-text-fill: #ffffff;
     -fx-border-radius: 5px;
     -fx-font-size: 10px;
+}
+
+.main-tool-bar-close-button:hover {
+    -fx-background-color: rgba(180, 0, 0, 0.90);
 }
 
 

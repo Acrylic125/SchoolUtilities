@@ -39,7 +39,6 @@ public interface Program {
     default void decorate(@NotNull Parent parent) {
         if (parent instanceof Pane) {
             MainToolBar mainToolBar = getToolBar();
-            System.out.println("TTTTTT");
             ((Pane) parent).getChildren().add(mainToolBar);
         }
     }

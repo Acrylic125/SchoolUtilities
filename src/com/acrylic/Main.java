@@ -71,8 +71,8 @@ public class Main
         primaryStage.setWidth(width - 1);
         new Thread(() -> {
             try {
+                Thread.sleep(10);
                 reinitializeSize = false;
-                Thread.sleep(1);
                 primaryStage.setWidth(width);
             } catch (InterruptedException ex) {
                 ex.printStackTrace();

@@ -2,6 +2,7 @@ package com.acrylic.main;
 
 import com.acrylic.utils.FXUtils;
 import com.acrylic.windowexpander.StageWindowExpander;
+import javafx.css.PseudoClass;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
@@ -46,14 +47,18 @@ public class MainToolBar extends AnchorPane {
     private void transformButton(@NotNull Button button, int elementFromRight) {
         button.setPrefWidth(BUTTON_SIZE_X);
         button.setPrefHeight(BUTTON_SIZE_Y);
+        button.getStyleClass().add("main-tool-bar-button");
+        //button.getStyleClass().remove("button");
         FXUtils.setMinMaxSizeAsPref(button);
         FXUtils.setAnchorBindings(button, 0d, BUTTON_SIZE_X * elementFromRight, -1d, -1d);
     }
 
     private Button getCloseButton() {
         Button button = new Button("X");
-        button.getStyleClass().add("close-button");
+        button.getStyleClass().add("main-tool-bar-close-button");
         transformButton(button, 0);
+        button.setOnMouseEntered(event -> button.pseudoClassStateChanged(PseudoClass.getPseudoClass("hover"), true));
+        button.setOnMouseExited(event -> button.pseudoClassStateChanged(PseudoClass.getPseudoClass("hover"), false));
         button.setOnMouseClicked(event -> {
             Window window = ((Node) event.getSource()).getScene().getWindow();
             if (window instanceof Stage)
