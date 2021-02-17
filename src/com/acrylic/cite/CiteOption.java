@@ -1,7 +1,10 @@
 package com.acrylic.cite;
 
+import com.acrylic.Main;
+import com.acrylic.cache.SectionMap;
 import com.acrylic.fxobjects.RedirectOption;
 import com.acrylic.main.MenuRedirectOption;
+import com.acrylic.sections.AbstractSection;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import org.jetbrains.annotations.NotNull;
@@ -22,7 +25,12 @@ public class CiteOption
     @Override
     public void handleMouseClicked(@NotNull MouseEvent event) {
         try {
-            new CiteSection().switchToScene();
+            SectionMap<AbstractSection> sectionMap = Main.getProgram().getSectionMap();;
+            AbstractSection section = sectionMap.getSection(CiteSection.class);
+            if (section == null)
+                section = new CiteSection();
+            sectionMap.cache(section);
+            section.switchToScene();
         } catch (IOException ex) {
             ex.printStackTrace();
         }

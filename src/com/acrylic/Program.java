@@ -1,5 +1,6 @@
 package com.acrylic;
 
+import com.acrylic.cache.SectionMap;
 import com.acrylic.main.MainToolBar;
 import com.acrylic.sections.AbstractSection;
 import com.acrylic.windowexpander.StageWindowExpander;
@@ -12,6 +13,9 @@ import javafx.stage.Stage;
 import org.jetbrains.annotations.NotNull;
 
 public interface Program {
+
+    @NotNull
+    SectionMap<AbstractSection> getSectionMap();
 
     AbstractSection getDefaultSection();
 

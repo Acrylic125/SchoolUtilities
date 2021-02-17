@@ -1,5 +1,6 @@
 package com.acrylic;
 
+import com.acrylic.cache.SectionMap;
 import com.acrylic.main.MainToolBar;
 import com.acrylic.sections.AbstractSection;
 import com.acrylic.utils.StageBuilder;
@@ -17,18 +18,21 @@ public class Main
         extends Application
         implements Program {
 
-    private MainToolBar mainToolBar;
     private static Program program;
     public static double DEFAULT_WIDTH = 700, DEFAULT_HEIGHT = 430;
+
+    private MainToolBar mainToolBar;
     private Stage primaryStage;
     private AbstractSection currentSection;
+    private final SectionMap<AbstractSection> map = new SectionMap<>();
     private volatile boolean reinitializeSize = false;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
         program = this;
         this.mainToolBar = new MainToolBar(0, 0);
-        this.currentSection = new MainSection(DEFAULT_WIDTH, DEFAULT_HEIGHT);
+        MainSection mainSection = new MainSection(DEFAULT_WIDTH, DEFAULT_HEIGHT);
+        this.currentSection = mainSection;
         this.primaryStage = new StageBuilder(primaryStage)
                 .setScene(this.currentSection.getScene())
                 .setF11FullScreen(true)
@@ -42,6 +46,7 @@ public class Main
         primaryStage.show();
         decorate(this.currentSection.getScene().getRoot());
         applyExpander();
+        map.cache(mainSection);
     }
 
     private void applyExpander() {
@@ -49,10 +54,21 @@ public class Main
         windowExpander.relocateIfContactWithNodes(mainToolBar);
     }
 
+    @NotNull
+    @Override
+    public SectionMap<AbstractSection> getSectionMap() {
+        return map;
+    }
+
     @Override
     public AbstractSection getDefaultSection() {
+        AbstractSection section = map.getSection(MainSection.class);
+        if (section != null)
+            return section;
         try {
-            return new MainSection();
+            MainSection mainSection = new MainSection();
+            map.cache(section);
+            return mainSection;
         } catch (IOException ex) {
             return null;
         }

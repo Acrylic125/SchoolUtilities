@@ -1,6 +1,7 @@
 
 .root {
     -selection-color: #4b7ccf;
+    -selection-color-2: rgba(50, 50, 50, 0.90);
     -primary-color: #202020;
     -secondary-color: #101010;
     -sidebar-color: #181818;
@@ -95,11 +96,16 @@
 }
 
 .main-tool-bar-button {
+    -fx-border-width: 0 0 0 0 !important;
     -fx-text-alignment: center !important;
     -fx-background-color: rgba(0, 0, 0, 0.00);
     -fx-text-fill: #ffffff;
     -fx-border-radius: 5px;
     -fx-font-size: 10px;
+}
+
+.main-tool-bar-button:hover {
+    -fx-background-color: -selection-color-2;
 }
 
 .main-tool-bar-close-button:hover {
